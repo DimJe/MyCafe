@@ -21,7 +21,8 @@ data class Document(
 
 )
 data class Meta(
-        val same_name: Same_name
+        val same_name: Same_name,
+        val is_end : Boolean
 )
 data class Same_name(
         val keyword : String

@@ -22,6 +22,14 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/*  1.api 모든 결과 불러오기
+    2.버튼 꾸미기
+    3.text classification 구현해보기
+    4.splash 구현 o
+    5.소스파일 나눠보기
+    6.firebase 연동
+    7.코드 암호화
+*/
 class MainActivity : AppCompatActivity(),OnMapReadyCallback {
     companion object{
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
@@ -41,10 +49,6 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         Log.d(TAG,"MainActivity - onCreate() called")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        MobileAds.initialize(this){}
-        var adView = findViewById<AdView>(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
         val ediya = findViewById<Button>(R.id.ediya)
         ediya.setOnClickListener{
             Log.d(TAG,"이디야 () called")
@@ -127,7 +131,7 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
 
         this.naverMap = naverMap
         naverMap.setLocationSource(locationSource)
-        naverMap.setLocationTrackingMode(LocationTrackingMode.Face)
+        naverMap.setLocationTrackingMode(LocationTrackingMode.Follow)
         naverMap.addOnLocationChangeListener { location ->
 //            Toast.makeText(this, "${location.latitude}, ${location.longitude}",
 //                    Toast.LENGTH_SHORT).show()
@@ -150,7 +154,7 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val api = retrofit.create(SearchCafeService::class.java)
-        val callGetSearchCafe = api.getSearchCafe(REST_API_KEY, locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",3000,name)
+        val callGetSearchCafe = api.getSearchCafe(REST_API_KEY, locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",3000,name,1,45)
         callGetSearchCafe.enqueue(object : Callback<Cafeinfo>{
             override fun onResponse(call: Call<Cafeinfo>, response: Response<Cafeinfo>) {
                 Log.d(TAG,"MainActivity - onResponse() called")
@@ -172,7 +176,7 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         val api = retrofit.create(SearchOtherService::class.java)
-        val callGetSearchOther = api.getSearchOther(REST_API_KEY, locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",1000)
+        val callGetSearchOther = api.getSearchOther(REST_API_KEY, locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",1000,1,45)
         callGetSearchOther.enqueue(object : Callback<Cafeinfo>{
             override fun onResponse(call: Call<Cafeinfo>, response: Response<Cafeinfo>) {
                 Log.d(TAG,"MainActivity - onResponse() called")
@@ -257,10 +261,10 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
     }
     fun del(color:Int = Color.argb(100,102,0,0)){
         var marker_list_del = mutableListOf<Marker>()
-        for(i in marker_list){
-            if(i.getIconTintColor()==color){
-                i.map = null
-                marker_list_del.add(i)
+        marker_list.forEach {
+            if(it.iconTintColor ==color){
+                it.map = null
+                marker_list_del.add(it)
 
             }
         }
@@ -270,19 +274,19 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         Log.d(TAG,"324: ${marker_list.size}")
     }
     fun del_all(){
-        Log.d(TAG,"MainActivity - del_all() called              ${marker_list.size}")
+        Log.d(TAG,"MainActivity - del_all() called   ${marker_list.size}")
         var marker_list_del = mutableListOf<Marker>()
         if (marker_list.isEmpty()) return
-       when(marker_list[0].getIconTintColor()){
+        when(marker_list[0].getIconTintColor()){
            Color.BLUE -> count_ediya++
            Color.GREEN -> count_star++
            Color.GRAY -> count_other++
            Color.argb(100,102,0,0) -> count_two++
 
-       }
-        for(i in marker_list){
-            i.map = null
-            marker_list_del.add(i)
+        }
+        marker_list.forEach {
+            it.map = null
+            marker_list_del.add(it)
         }
         Log.d(TAG,"322: ${marker_list.size}")
         marker_list.removeAll(marker_list_del)
