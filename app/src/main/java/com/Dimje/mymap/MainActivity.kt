@@ -33,6 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity(),OnMapReadyCallback {
     companion object{
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+        const val TAG:String = "로그"
     }
     private lateinit var locationSource: FusedLocationSource
     private lateinit var naverMap: NaverMap
@@ -44,7 +45,6 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
     var count_star :Int = 0
     var count_two :Int = 0
     var count_other :Int = 0
-    val TAG:String = "로그"
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG,"MainActivity - onCreate() called")
         super.onCreate(savedInstanceState)
@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val api = retrofit.create(SearchCafeService::class.java)
-        val callGetSearchCafe = api.getSearchCafe(REST_API_KEY, locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",3000,name,1,45)
+        val callGetSearchCafe = api.getSearchCafe(REST_API_KEY, locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",3000,name)
         callGetSearchCafe.enqueue(object : Callback<Cafeinfo>{
             override fun onResponse(call: Call<Cafeinfo>, response: Response<Cafeinfo>) {
                 Log.d(TAG,"MainActivity - onResponse() called")
@@ -176,7 +176,7 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         val api = retrofit.create(SearchOtherService::class.java)
-        val callGetSearchOther = api.getSearchOther(REST_API_KEY, locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",1000,1,45)
+        val callGetSearchOther = api.getSearchOther(REST_API_KEY, locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",1000)
         callGetSearchOther.enqueue(object : Callback<Cafeinfo>{
             override fun onResponse(call: Call<Cafeinfo>, response: Response<Cafeinfo>) {
                 Log.d(TAG,"MainActivity - onResponse() called")

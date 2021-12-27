@@ -12,9 +12,7 @@ interface SearchOtherService{
             @Query("x") x: Double,
             @Query("y") y: Double,
             @Query("category_group_code") category_group_code : String,
-            @Query("radius") radius : Int,
-            @Query("page") page: Int,
-            @Query("size") size: Int
+            @Query("radius") radius : Int
 
 
 
