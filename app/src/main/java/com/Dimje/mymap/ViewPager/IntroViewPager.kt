@@ -12,6 +12,7 @@ import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_intro_view_pager.*
 import kotlinx.android.synthetic.main.activity_intro_view_pager.view.*
 import java.util.*
+import javax.security.auth.callback.Callback
 
 class IntroViewPager : AppCompatActivity() {
 
@@ -29,6 +30,7 @@ class IntroViewPager : AppCompatActivity() {
 
         previous_btn.setOnClickListener {
             my_intro_view_pager.currentItem -= 1
+            next_btn.text = "다음"
         }
         next_btn.setOnClickListener {
             if(my_intro_view_pager.currentItem==2){
@@ -40,13 +42,31 @@ class IntroViewPager : AppCompatActivity() {
             else{
                 Log.d(TAG, "${my_intro_view_pager.currentItem}")
                 my_intro_view_pager.currentItem += 1
+                if(my_intro_view_pager.currentItem==2){
+                    next_btn.text = "확인"
+                }
+                else next_btn.text = "다음"
             }
         }
         Log.d(TAG, "intro: called")
         IntroPagerRecyclerAdapter = IntroViewPagerAdapter(pageItemList)
 
 
-
+        my_intro_view_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                if (position==2) next_btn.text = "확인"
+                else next_btn.text = "다음"
+                super.onPageSelected(position)
+            }
+            override fun onPageScrollStateChanged(state: Int) {
+                if (state == ViewPager2.SCROLL_STATE_DRAGGING && my_intro_view_pager.currentItem==2){
+                    val intent = Intent(this@IntroViewPager,MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                super.onPageScrollStateChanged(state)
+            }
+        })
         my_intro_view_pager.adapter = IntroPagerRecyclerAdapter
         my_intro_view_pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         dots_indicator.setViewPager2(my_intro_view_pager)
