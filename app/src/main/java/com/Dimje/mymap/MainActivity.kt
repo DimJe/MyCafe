@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.Dimje.mymap.API.CallAPI
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -38,13 +39,11 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
     private lateinit var naverMap: NaverMap
     private lateinit var locationOverlay : LocationOverlay
-    private lateinit var marker: Marker
-    private lateinit var infoWindow: InfoWindow
-    private var marker_list = mutableListOf<Marker>()
-    var count_ediya :Int = 0
-    var count_star :Int = 0
-    var count_two :Int = 0
-    var count_other :Int = 0
+    private lateinit var callAPI: CallAPI
+    var count_ediya :Boolean = false
+    var count_star :Boolean = false
+    var count_two :Boolean = false
+    var count_other :Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG,"MainActivity - onCreate() called")
         super.onCreate(savedInstanceState)
@@ -52,54 +51,56 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         val ediya = findViewById<Button>(R.id.ediya)
         ediya.setOnClickListener{
             Log.d(TAG,"이디야 () called")
-            if(count_ediya%2 ==0){
-                del_all()
-                loadCafe("이디야")
-                count_ediya++
-                count_ediya = count_ediya%2
+            if(!count_ediya){
+                callAPI.del_all()
+                callAPI.loadCafe("이디야")//showcafe가 호출되는 시점에서 api가 아직 결과를 못 가져 왔음
+                count_ediya = true
             }
             else{
-                del(Color.BLUE)
-                count_ediya++
+                callAPI.del(Color.BLUE)
+                count_ediya = false
             }
         }
         val two = findViewById<Button>(R.id.twosome)
         two.setOnClickListener{
             Log.d(TAG,"투썸 () called")
-            if(count_two%2 ==0){
-                del_all()
-                loadCafe("투썸")
-                count_two++
+            if(!count_two){
+                callAPI.del_all()
+                (callAPI.loadCafe("투썸"))
+                count_two = true
             }
             else{
-                del()
-                count_two++
+                callAPI.del()
+                count_two = false
             }
         }
         val star = findViewById<Button>(R.id.starbucks)
         star.setOnClickListener{
             Log.d(TAG,"스벜 () called")
-            if(count_star%2 ==0){
-                del_all()
-                loadCafe("스타벅스")
-                count_star++
+            if(!count_star){
+                callAPI.del_all()
+                callAPI.loadCafe("스타벅스")
+                count_star = true
             }
             else{
-                del(Color.GREEN)
-                count_star++
+                callAPI.del(Color.GREEN)
+                count_star = false
             }
         }
         val other = findViewById<Button>(R.id.other)
         other.setOnClickListener{
             Log.d(TAG,"그외 () called")
-            if(count_other%2 ==0){
-                del_all()
-                loadCafe_other()
-                count_other++
+            if(!count_other){
+                callAPI.del_all()
+                callAPI.loadCafe_other()
+                count_other = true
+                count_ediya = false
+                count_star = false
+                count_two = false
             }
             else{
-                del(Color.GRAY)
-                count_other++
+                callAPI.del(Color.GRAY)
+                count_other = false
             }
         }
         val fm = supportFragmentManager
@@ -133,165 +134,16 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         naverMap.setLocationSource(locationSource)
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow)
         naverMap.addOnLocationChangeListener { location ->
-//            Toast.makeText(this, "${location.latitude}, ${location.longitude}",
-//                    Toast.LENGTH_SHORT).show()
             locationOverlay.position = LatLng(location.latitude, location.longitude)
-            //Log.d(TAG,"onMapReady()-  ${locationOverlay.position.latitude}  ${locationOverlay.position.longitude}")
         }
         locationOverlay = naverMap.locationOverlay
-        //loadCafe()
         var ui:UiSettings = naverMap.getUiSettings()
         ui.setLocationButtonEnabled(true)
+        callAPI = CallAPI(locationOverlay,this.naverMap,this)
 
     }
-    fun loadCafe(name:String){
 
-        val BASE_URL_KAKAO_API = "https://dapi.kakao.com/"
-        val REST_API_KEY = "KakaoAK b6687296c27e98184bd039bd2e288f48"
-        //Log.d(TAG," loadCafe()- ${locationOverlay.position.latitude}  ${locationOverlay.position.longitude}")
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL_KAKAO_API)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val api = retrofit.create(SearchCafeService::class.java)
-        val callGetSearchCafe = api.getSearchCafe(REST_API_KEY, locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",3000,name)
-        callGetSearchCafe.enqueue(object : Callback<Cafeinfo>{
-            override fun onResponse(call: Call<Cafeinfo>, response: Response<Cafeinfo>) {
-                Log.d(TAG,"MainActivity - onResponse() called")
-                val result = response.body()
-                //Log.d(TAG,"${result!!.documents[0].address_name}")
-                showCafe(result)
-            }
-            override fun onFailure(call: Call<Cafeinfo>, t: Throwable) {
-                Log.d(TAG,"MainActivity - onFailure() called ${t.localizedMessage}")
-            }
-        })
-    }
-    fun loadCafe_other(){
-        val BASE_URL_KAKAO_API = "https://dapi.kakao.com/"
-        val REST_API_KEY = "KakaoAK b6687296c27e98184bd039bd2e288f48"
-        //Log.d(TAG," loadCafe()- ${locationOverlay.position.latitude}  ${locationOverlay.position.longitude}")
-        val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL_KAKAO_API)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val api = retrofit.create(SearchOtherService::class.java)
-        val callGetSearchOther = api.getSearchOther(REST_API_KEY, locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",1000)
-        callGetSearchOther.enqueue(object : Callback<Cafeinfo>{
-            override fun onResponse(call: Call<Cafeinfo>, response: Response<Cafeinfo>) {
-                Log.d(TAG,"MainActivity - onResponse() called")
-                val result_other = response.body()
-                result_other?.let {
-                    for (Cafeinfo in it.documents){
-                        //marker.map = null
-                        marker  = Marker()
-                        marker.icon = MarkerIcons.BLACK
-                        marker.iconTintColor = Color.GRAY
-                        infoWindow = InfoWindow()
-                        infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this@MainActivity) {
-                            override fun getText(infoWindow: InfoWindow): CharSequence {
-                                return Cafeinfo.place_name
-                            }
-                        }
-                        marker.setOnClickListener {
-                            var url :String = "https://search.naver.com/search.naver?where=nexearch&sm=top_sly.hst&fbm=0&acr=1&ie=utf8&query="+"${Cafeinfo.place_name}"
-                            AlertDialog.Builder(this@MainActivity)
-                                    .setTitle(Cafeinfo.place_name)
-                                    .setMessage("${Cafeinfo.road_address_name}")
-                                    .setPositiveButton("확인") { dialog, id ->
-                                    }
-                                    .setNegativeButton("이동하기") { dialog, id ->
-                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                                        startActivity(intent)
-                                    }
-                                    .show()
-                            false
-                        }
-                        //Log.d(TAG,"MainActivity - showCafe() called${latLng.latitude},${latLng.longitude},${Cafeinfo.address}")
-                        marker.position = LatLng(Cafeinfo.y.toDouble(),Cafeinfo.x.toDouble())
-                        marker.map = naverMap
-                        infoWindow.open(marker)
-                        marker_list.add(marker)
-                    }
-                }
-            }
-            override fun onFailure(call: Call<Cafeinfo>, t: Throwable) {
-                Log.d(TAG,"MainActivity - onFailure() called ${t.localizedMessage}")
-            }
-        })
-    }
-    fun showCafe(result : Cafeinfo?){
-        result?.let {
-            for (Cafeinfo in it.documents){
-                //marker.map = null
-                marker  = Marker()
-                marker.icon = MarkerIcons.BLACK
-                when(it.meta.same_name.keyword){
-                    "이디야" -> marker.iconTintColor = Color.BLUE
-                    "투썸" -> marker.iconTintColor = Color.argb(100,102,0,0)
-                    "스타벅스" -> marker.iconTintColor = Color.GREEN
-                }
-                infoWindow = InfoWindow()
-                infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
-                    override fun getText(infoWindow: InfoWindow): CharSequence {
-                        return Cafeinfo.place_name
-                    }
-                }
-                marker.setOnClickListener {
-                    var url :String = "https://search.naver.com/search.naver?where=nexearch&sm=top_sly.hst&fbm=0&acr=1&ie=utf8&query="+"${Cafeinfo.place_name}"
-                    AlertDialog.Builder(this)
-                            .setTitle(Cafeinfo.place_name)
-                            .setMessage("${Cafeinfo.road_address_name}")
-                            .setPositiveButton("확인") { dialog, id ->
-                            }
-                            .setNegativeButton("이동하기") { dialog, id ->
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                                startActivity(intent)
-                            }
-                            .show()
-                    false
-                }
-                //Log.d(TAG,"MainActivity - showCafe() called${latLng.latitude},${latLng.longitude},${Cafeinfo.address}")
-                marker.position = LatLng(Cafeinfo.y.toDouble(),Cafeinfo.x.toDouble())
-                marker.map = naverMap
-                marker_list.add(marker)
-                infoWindow.open(marker)
-            }
-        }
-    }
-    fun del(color:Int = Color.argb(100,102,0,0)){
-        var marker_list_del = mutableListOf<Marker>()
-        marker_list.forEach {
-            if(it.iconTintColor ==color){
-                it.map = null
-                marker_list_del.add(it)
 
-            }
-        }
-        Log.d(TAG,"321:MainActivity - del() called     ${marker_list_del.size}")
-        Log.d(TAG,"322: ${marker_list.size}")
-        marker_list.removeAll(marker_list_del)
-        Log.d(TAG,"324: ${marker_list.size}")
-    }
-    fun del_all(){
-        Log.d(TAG,"MainActivity - del_all() called   ${marker_list.size}")
-        var marker_list_del = mutableListOf<Marker>()
-        if (marker_list.isEmpty()) return
-        when(marker_list[0].getIconTintColor()){
-           Color.BLUE -> count_ediya++
-           Color.GREEN -> count_star++
-           Color.GRAY -> count_other++
-           Color.argb(100,102,0,0) -> count_two++
-
-        }
-        marker_list.forEach {
-            it.map = null
-            marker_list_del.add(it)
-        }
-        Log.d(TAG,"322: ${marker_list.size}")
-        marker_list.removeAll(marker_list_del)
-        Log.d(TAG,"324: ${marker_list.size}")
-    }
 
 
 }
