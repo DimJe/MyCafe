@@ -35,9 +35,9 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
     companion object{
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
         const val TAG:String = "로그"
+        lateinit var naverMap: NaverMap
     }
     private lateinit var locationSource: FusedLocationSource
-    private lateinit var naverMap: NaverMap
     private lateinit var locationOverlay : LocationOverlay
     private lateinit var callAPI: CallAPI
     var count_ediya :Boolean = false
@@ -126,11 +126,11 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
-    override fun onMapReady(naverMap: NaverMap) {
+    override fun onMapReady(NaverMap: NaverMap) {
 
         Log.d(TAG,"MainActivity - onMapReady() called")
 
-        this.naverMap = naverMap
+        naverMap = NaverMap
         naverMap.setLocationSource(locationSource)
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow)
         naverMap.addOnLocationChangeListener { location ->
@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         locationOverlay = naverMap.locationOverlay
         var ui:UiSettings = naverMap.getUiSettings()
         ui.setLocationButtonEnabled(true)
-        callAPI = CallAPI(locationOverlay,this.naverMap,this)
+        callAPI = CallAPI(locationOverlay,this)
 
     }
 

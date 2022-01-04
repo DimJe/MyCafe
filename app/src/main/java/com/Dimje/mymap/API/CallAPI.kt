@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat.startActivity
 import com.Dimje.mymap.Cafeinfo
 import com.Dimje.mymap.MainActivity
 import com.Dimje.mymap.MainActivity.Companion.TAG
+import com.Dimje.mymap.MainActivity.Companion.naverMap
 import com.Dimje.mymap.SearchCafeService
 import com.Dimje.mymap.SearchOtherService
 import com.naver.maps.geometry.LatLng
@@ -25,7 +26,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class CallAPI(var locationOverlay: LocationOverlay,val naverMap: NaverMap,val context: Context) {
+class CallAPI(var locationOverlay: LocationOverlay,val context: Context) {
     private lateinit var marker: Marker
     private lateinit var infoWindow: InfoWindow
     private var marker_list = mutableListOf<Marker>()
