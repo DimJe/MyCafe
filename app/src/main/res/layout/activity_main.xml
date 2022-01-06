@@ -4,70 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical"
-    android:background="@color/white">
-
-    <fragment
-        android:id="@+id/map_fragment"
-        android:name="com.naver.maps.map.MapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:weightSum="2"
+    tools:context=".MainActivity">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:background="@color/white"
-        >
+        android:id="@+id/show_with_map"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:background="@drawable/stroke"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/ediya"
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="이디야"
-            android:textSize="15dp"
-            android:textColor="@color/white"
-            app:cornerRadius="20dp"
-            android:backgroundTint="#970027FF"
-            />
+            android:src="@drawable/map" />
 
-        <Button
-            android:id="@+id/twosome"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#832E13"
-            android:text="투섬"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="지도로 보기"
             android:textSize="15dp"
-            android:textColor="@color/white"
-            app:cornerRadius="20dp"
-             />
+            android:textStyle="bold" />
 
-        <Button
-            android:text="스타벅스"
-            android:id="@+id/starbucks"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="15dp"
-            android:backgroundTint="#13AF29"
-            app:cornerRadius="20dp"
-            />
-        <Button
-            android:text="그외"
-            android:id="@+id/other"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="15dp"
-            android:backgroundTint="#686868"
-            app:cornerRadius="20dp"
-            />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/show_with_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:background="@drawable/stroke"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/list" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="목록으로 보기"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
 </LinearLayout>

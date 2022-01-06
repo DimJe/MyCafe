@@ -39,6 +39,7 @@ class ViewHolder(itemView: View,
         // 텍스트뷰 와 실제 텍스트 데이터를 묶는다.
         CafeName.text = myModel.place_name
         CafeAddress.text = myModel.address_name
+        CafePoint.text = "0.0/5"
 
     }
 

@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat.startActivity
 import com.Dimje.mymap.Cafeinfo
 import com.Dimje.mymap.MainActivity
 import com.Dimje.mymap.MainActivity.Companion.TAG
-import com.Dimje.mymap.MainActivity.Companion.naverMap
+import com.Dimje.mymap.CafeMapActivity.Companion.naverMap
 import com.Dimje.mymap.SearchCafeService
 import com.Dimje.mymap.SearchOtherService
 import com.naver.maps.geometry.LatLng
@@ -43,12 +43,12 @@ class CallAPI(var locationOverlay: LocationOverlay,val context: Context) {
             locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",3000,name)
         callGetSearchCafe.enqueue(object : Callback<Cafeinfo> {
             override fun onResponse(call: Call<Cafeinfo>, response: Response<Cafeinfo>) {
-                Log.d(MainActivity.TAG,"MainActivity - onResponse() called")
+                Log.d(TAG,"CallAPI - onResponse() called")
                 result = response.body()
                 showCafe(result)
             }
             override fun onFailure(call: Call<Cafeinfo>, t: Throwable) {
-                Log.d(MainActivity.TAG,"MainActivity - onFailure() called ${t.localizedMessage}")
+                Log.d(TAG,"CallAPI - onFailure() called ${t.localizedMessage}")
             }
         })
     }
@@ -58,7 +58,7 @@ class CallAPI(var locationOverlay: LocationOverlay,val context: Context) {
             locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",1000)
         callGetSearchOther.enqueue(object : Callback<Cafeinfo>{
             override fun onResponse(call: Call<Cafeinfo>, response: Response<Cafeinfo>) {
-                Log.d(MainActivity.TAG,"MainActivity - onResponse() called")
+                Log.d(TAG,"MainActivity - onResponse() called")
                 result = response.body()
                 showCafe(result)
             }
@@ -68,11 +68,11 @@ class CallAPI(var locationOverlay: LocationOverlay,val context: Context) {
         })
     }
     fun showCafe(result : Cafeinfo?){
-        Log.d(MainActivity.TAG, "showCafe: called")
+        Log.d(TAG, "showCafe: called")
         if(result==null) Log.d(MainActivity.TAG, "showCafe: null")
         result?.let {
             for (Cafeinfo in it.documents){
-                Log.d(MainActivity.TAG, "showCafe: ${Cafeinfo.address_name}")
+                Log.d(TAG, "showCafe: ${Cafeinfo.address_name}")
                 //marker.map = null
                 marker  = Marker()
                 marker.icon = MarkerIcons.BLACK
@@ -107,7 +107,6 @@ class CallAPI(var locationOverlay: LocationOverlay,val context: Context) {
                         .show()
                     false
                 }
-                //Log.d(TAG,"MainActivity - showCafe() called${latLng.latitude},${latLng.longitude},${Cafeinfo.address}")
                 marker.position = LatLng(Cafeinfo.y.toDouble(),Cafeinfo.x.toDouble())
                 marker.map = naverMap
                 marker_list.add(marker)
@@ -124,28 +123,21 @@ class CallAPI(var locationOverlay: LocationOverlay,val context: Context) {
 
             }
         }
-        Log.d(MainActivity.TAG,"321:MainActivity - del() called     ${marker_list_del.size}")
-        Log.d(MainActivity.TAG,"322: ${marker_list.size}")
+        Log.d(TAG,"CallAPI - del() called     ${marker_list_del.size}")
+        Log.d(TAG,"before_array_size : ${marker_list.size}")
         marker_list.removeAll(marker_list_del)
-        Log.d(MainActivity.TAG,"324: ${marker_list.size}")
+        Log.d(TAG,"after_array_size : ${marker_list.size}")
     }
     fun del_all(){
-        Log.d(MainActivity.TAG,"MainActivity - del_all() called   ${marker_list.size}")
+        Log.d(TAG,"CallAPI - del_all() called   ${marker_list.size}")
         var marker_list_del = mutableListOf<Marker>()
         if (marker_list.isEmpty()) return
-//        when(marker_list[0].getIconTintColor()){
-//            Color.BLUE -> count_ediya++
-//            Color.GREEN -> count_star++
-//            Color.GRAY -> count_other++
-//            Color.argb(100,102,0,0) -> count_two++
-//
-//        }
         marker_list.forEach {
             it.map = null
             marker_list_del.add(it)
         }
-        Log.d(MainActivity.TAG,"322: ${marker_list.size}")
+        Log.d(TAG,"before_array_size : ${marker_list.size}")
         marker_list.removeAll(marker_list_del)
-        Log.d(MainActivity.TAG,"324: ${marker_list.size}")
+        Log.d(TAG,"after_array_size : ${marker_list.size}")
     }
 }
