@@ -5,9 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.Dimje.mymap.Cafeinfo
 import com.Dimje.mymap.Document
-import com.Dimje.mymap.MainActivity
 import com.Dimje.mymap.MainActivity.Companion.TAG
-import com.Dimje.mymap.R
 import kotlinx.android.synthetic.main.layout_recycler_item.view.*
 
 class ViewHolder(itemView: View,

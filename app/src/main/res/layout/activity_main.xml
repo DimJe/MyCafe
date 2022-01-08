@@ -17,7 +17,8 @@
         android:layout_margin="20dp"
         android:layout_weight="1"
         android:background="@drawable/stroke"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="30dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -44,7 +45,8 @@
         android:layout_marginBottom="20dp"
         android:layout_weight="1"
         android:background="@drawable/stroke"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="30dp">
 
         <ImageView
             android:layout_width="match_parent"

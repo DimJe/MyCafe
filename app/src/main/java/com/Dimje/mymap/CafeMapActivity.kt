@@ -27,7 +27,7 @@ class CafeMapActivity : AppCompatActivity(),OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG,"CafeMapActivity - onCreate() called")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_cafe_map)
         val ediya = findViewById<Button>(R.id.ediya)
         ediya.setOnClickListener{
             Log.d(TAG, "이디야 - called ")

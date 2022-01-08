@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.Dimje.mymap.Cafeinfo
+import com.Dimje.mymap.Document
 import com.Dimje.mymap.MainActivity
 import com.Dimje.mymap.R
 
 class RecyclerViewAdapter(myRecyclerviewInterface: RecyclerViewInterface): RecyclerView.Adapter<ViewHolder>() {
-    private var modelList = ArrayList<Cafeinfo>()
+    private var modelList = ArrayList<Document>()
 
     private var myRecyclerviewInterface :RecyclerViewInterface? = null
 
@@ -39,7 +40,7 @@ class RecyclerViewAdapter(myRecyclerviewInterface: RecyclerViewInterface): Recyc
     }
 
     // 외부에서 데이터 넘기기
-    fun submitList(modelList: ArrayList<Cafeinfo>){
+    fun submitList(modelList: ArrayList<Document>){
         this.modelList = modelList
     }
 
