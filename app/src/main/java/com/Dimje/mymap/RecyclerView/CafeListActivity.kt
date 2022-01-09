@@ -33,6 +33,6 @@ class CafeListActivity : AppCompatActivity(),RecyclerViewInterface {
     }
 
     override fun onItemClicked(position: Int){
-        
+
     }
 }

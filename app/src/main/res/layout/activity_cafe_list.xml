@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#DA42D3"
     android:orientation="vertical"
     android:weightSum="8"
     tools:context=".RecyclerView.CafeListActivity">
@@ -25,6 +26,7 @@
         android:weightSum="2">
 
         <Button
+            android:id="@+id/list_with_brand"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -33,6 +35,7 @@
             android:textColor="@color/black" />
 
         <Button
+            android:id="@+id/look_as_map"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
