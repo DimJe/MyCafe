@@ -46,13 +46,20 @@
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
             android:text="전부보기" />
-
-        <EditText
+        <RadioButton
             android:id="@+id/edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="직접입력" />
+
+        <EditText
+            android:id="@+id/write_cafe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="직접 입력"
-            android:onClick="onRadioButtonClicked" />
+            android:visibility="gone"
+            />
     </RadioGroup>
 
     <Button

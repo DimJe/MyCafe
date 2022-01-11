@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.RadioButton
+import androidx.core.view.isVisible
 import com.Dimje.mymap.API.CallAPI
 import kotlinx.android.synthetic.main.activity_cafe_brand_check_box.*
 
@@ -18,14 +19,18 @@ class CafeBrandCheckBox : AppCompatActivity() {
         Log.d(MainActivity.TAG, "checkbox called ")
 
         sumit.setOnClickListener {
+            Log.d(MainActivity.TAG, "sumit : clicked ")
             when(name){
                 "all" ->{
+                    Log.d(MainActivity.TAG, " all ")
                     CafeMapActivity.callAPI.loadCafe_other()
                 }
                 null ->{
-                    CafeMapActivity.callAPI.loadCafe(edit.text.toString())
+                    Log.d(MainActivity.TAG, " null ")
+                    CafeMapActivity.callAPI.loadCafe(write_cafe.text.toString())
                 }
                 else ->{
+                    Log.d(MainActivity.TAG, " else")
                     CafeMapActivity.callAPI.loadCafe(name!!)
                 }
             }
@@ -34,6 +39,7 @@ class CafeBrandCheckBox : AppCompatActivity() {
 
     }
     fun onRadioButtonClicked(view: View) {
+        Log.d(MainActivity.TAG, "onRadioButtonClicked: called")
         if (view is RadioButton) {
             // Is the button now checked?
             val checked = view.isChecked
@@ -59,6 +65,11 @@ class CafeBrandCheckBox : AppCompatActivity() {
                 R.id.all ->
                     if (checked) {
                         name = "all"
+                    }
+                R.id.edit ->
+                    if (checked) {
+                        name = null
+                        write_cafe.isVisible = true
                     }
             }
         }

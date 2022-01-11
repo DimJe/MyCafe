@@ -7,6 +7,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.MutableLiveData
 import com.Dimje.mymap.Cafeinfo
 import com.Dimje.mymap.MainActivity
 import com.Dimje.mymap.MainActivity.Companion.TAG
@@ -28,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class CallAPI(var locationOverlay: LocationOverlay) {
     companion object{
-        var result : Cafeinfo? = null
+        var result : MutableLiveData<Cafeinfo> = MutableLiveData()
     }
     val BASE_URL_KAKAO_API = "https://dapi.kakao.com/"
     val REST_API_KEY = "KakaoAK b6687296c27e98184bd039bd2e288f48"
@@ -36,14 +37,15 @@ class CallAPI(var locationOverlay: LocationOverlay) {
         .baseUrl(BASE_URL_KAKAO_API)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    fun loadCafe(name:String){
+    fun loadCafe(name:String) {
+        Log.d(TAG, "loadCafe: called")
         val api = retrofit.create(SearchCafeService::class.java)
         val callGetSearchCafe = api.getSearchCafe(REST_API_KEY,
             locationOverlay.position.longitude,locationOverlay.position.latitude,"CE7",3000,name)
         callGetSearchCafe.enqueue(object : Callback<Cafeinfo> {
             override fun onResponse(call: Call<Cafeinfo>, response: Response<Cafeinfo>) {
                 Log.d(TAG,"CallAPI - onResponse() called")
-                result = response.body()
+                result.value = response.body()
             }
             override fun onFailure(call: Call<Cafeinfo>, t: Throwable) {
                 Log.d(TAG,"CallAPI - onFailure() called ${t.localizedMessage}")
@@ -57,10 +59,10 @@ class CallAPI(var locationOverlay: LocationOverlay) {
         callGetSearchOther.enqueue(object : Callback<Cafeinfo>{
             override fun onResponse(call: Call<Cafeinfo>, response: Response<Cafeinfo>) {
                 Log.d(TAG,"MainActivity - onResponse() called")
-                result = response.body()
+                result.value = response.body()
             }
             override fun onFailure(call: Call<Cafeinfo>, t: Throwable) {
-                Log.d(MainActivity.TAG,"MainActivity - onFailure() called ${t.localizedMessage}")
+                Log.d(TAG,"MainActivity - onFailure() called ${t.localizedMessage}")
             }
         })
     }

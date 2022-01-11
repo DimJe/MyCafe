@@ -7,7 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.Dimje.mymap.API.CallAPI
+import com.Dimje.mymap.API.CallAPI.Companion.result
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.LocationOverlay
@@ -22,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_cafe_map.*
 // API 요청 후 응답 메소드에서 현재 실행중인 액티비티 얻은 후 종료 시켜서 CafeMapActivity - onResume()에서 지도에 띄워야함
 class CafeMapActivity : AppCompatActivity(),OnMapReadyCallback {
     companion object{
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+        const val LOCATION_PERMISSION_REQUEST_CODE = 1000
         lateinit var naverMap: NaverMap
         lateinit var callAPI: CallAPI
     }
@@ -52,6 +55,11 @@ class CafeMapActivity : AppCompatActivity(),OnMapReadyCallback {
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         Log.d(TAG,"CafeMapActivity - onCreate() end")
+
+        result.observe(this, Observer {
+            del_all()
+            showCafe(result.value)
+        })
 
     }
 
