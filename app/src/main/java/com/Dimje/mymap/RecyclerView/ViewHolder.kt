@@ -14,9 +14,9 @@ class ViewHolder(itemView: View,
                  View.OnClickListener
 {
 
-    private val CafeName = itemView.cafe_name
-    private val CafeAddress = itemView.cafe_address
-    private val CafePoint = itemView.cafe_point
+    private val cafeName = itemView.cafe_name
+    private val cafeAddress = itemView.cafe_address
+    private val cafePoint = itemView.cafe_point
 
     private var myRecyclerviewInterface : RecyclerViewInterface? = null
 
@@ -35,9 +35,9 @@ class ViewHolder(itemView: View,
         Log.d(TAG, "MyViewHolder - bind() called")
 
         // 텍스트뷰 와 실제 텍스트 데이터를 묶는다.
-        CafeName.text = myModel.place_name
-        CafeAddress.text = myModel.address_name
-        CafePoint.text = "0.0/5"
+        cafeName.text = myModel.place_name
+        cafeAddress.text = myModel.address_name
+        cafePoint.text = "0.0/5"
 
     }
 

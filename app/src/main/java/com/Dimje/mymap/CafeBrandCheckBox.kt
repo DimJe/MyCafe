@@ -7,7 +7,7 @@ import android.view.View
 import android.view.Window
 import android.widget.RadioButton
 import androidx.core.view.isVisible
-import com.Dimje.mymap.API.CallAPI
+import com.Dimje.mymap.MainActivity.Companion.callApi
 import kotlinx.android.synthetic.main.activity_cafe_brand_check_box.*
 
 class CafeBrandCheckBox : AppCompatActivity() {
@@ -18,20 +18,21 @@ class CafeBrandCheckBox : AppCompatActivity() {
         setContentView(R.layout.activity_cafe_brand_check_box)
         Log.d(MainActivity.TAG, "checkbox called ")
 
+
         sumit.setOnClickListener {
             Log.d(MainActivity.TAG, "sumit : clicked ")
             when(name){
                 "all" ->{
                     Log.d(MainActivity.TAG, " all ")
-                    CafeMapActivity.callAPI.loadCafe_other()
+                    callApi.loadCafe_other()
                 }
                 null ->{
                     Log.d(MainActivity.TAG, " null ")
-                    CafeMapActivity.callAPI.loadCafe(write_cafe.text.toString())
+                    callApi.loadCafe(write_cafe.text.toString())
                 }
                 else ->{
                     Log.d(MainActivity.TAG, " else")
-                    CafeMapActivity.callAPI.loadCafe(name!!)
+                    callApi.loadCafe(name!!)
                 }
             }
             finish()

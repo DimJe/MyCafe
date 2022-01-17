@@ -5,63 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:weightSum="2"
+    android:orientation="vertical"
+    android:weightSum="8"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/show_with_map"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_weight="1"
-        android:background="@drawable/stroke"
-        android:orientation="vertical"
-        android:paddingTop="30dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/map" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="20dp"
-            android:text="지도로 보기"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+    <fragment
+        android:id="@+id/map_fragment"
+        android:name="com.naver.maps.map.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <LinearLayout
-        android:id="@+id/show_with_list"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/stroke"
-        android:orientation="vertical"
-        android:paddingTop="30dp">
+        android:background="@color/white"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/map_with_brand"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/list" />
+            android:layout_weight="1"
+            android:background="@drawable/stroke"
+            android:text="BRAND"
+            android:textColor="@color/black" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/look_as_list"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/stroke"
             android:text="목록으로 보기"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+            android:textColor="@color/black" />
 
     </LinearLayout>
-
 </LinearLayout>
