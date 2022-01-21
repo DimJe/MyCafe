@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="20"
+    tools:context=".ReviewActivity">
+
+    <TextView
+        android:id="@+id/cafeName"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:gravity="left"
+        android:padding="5dp"
+        android:text="카페명"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cafeAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1.25"
+        android:gravity="left"
+        android:paddingStart="5dp"
+        android:text="cafe address"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cafePoint"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1.25"
+        android:gravity="right"
+        android:paddingStart="5dp"
+        android:text="cafe point"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+
+    <fragment
+        android:id="@+id/review"
+        android:name="com.Dimje.mymap.ReviewFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="14" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="리뷰작성"
+            android:textColor="@color/black"
+            android:textSize="25dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:padding="10dp"
+            android:text="닫기"
+            android:textColor="@color/black"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

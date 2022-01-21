@@ -14,9 +14,10 @@ class ViewHolder(itemView: View,
                  View.OnClickListener
 {
 
-    private val cafeName = itemView.cafe_name
-    private val cafeAddress = itemView.cafe_address
-    private val cafePoint = itemView.cafe_point
+    private val cafeName = itemView.cafeName
+    private val cafeAddress = itemView.cafeAddress
+    private val cafePoint = itemView.cafePoint
+    private val cafeDistance = itemView.cafeDistance
 
     private var myRecyclerviewInterface : RecyclerViewInterface? = null
 
@@ -38,6 +39,7 @@ class ViewHolder(itemView: View,
         cafeName.text = myModel.place_name
         cafeAddress.text = myModel.address_name
         cafePoint.text = "0.0/5"
+        cafeDistance.text = (myModel.distance.toDouble()/1000).toString()+"km"
 
     }
 

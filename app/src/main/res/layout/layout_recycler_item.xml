@@ -20,7 +20,7 @@
             android:weightSum="5">
 
             <TextView
-                android:id="@+id/cafe_name"
+                android:id="@+id/cafeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -31,7 +31,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/cafe_point"
+                android:id="@+id/cafePoint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -40,14 +40,32 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/cafe_address"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:paddingTop="10dp"
-            android:text="강원도 강릉시 월대산로 57"
-            android:layout_gravity="left"/>
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <TextView
+                android:id="@+id/cafeAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginStart="20dp"
+                android:layout_weight="3"
+                android:paddingTop="10dp"
+                android:text="강원도 강릉시 월대산로 57" />
+
+            <TextView
+                android:id="@+id/cafeDistance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:paddingTop="10dp"
+                android:text="3.7km" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

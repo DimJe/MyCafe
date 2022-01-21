@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1073053453229",
+    "project_id": "mycafe-50769",
+    "storage_bucket": "mycafe-50769.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073053453229:android:365615b025a4ddb8dd2f24",
+        "android_client_info": {
+          "package_name": "com.Dimje.mymap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073053453229-29c7e1aep6kmmc3mkeo8f9k1613a8t60.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Dimje.mymap",
+            "certificate_hash": "d47c95292bc1fb92da06d006a6578ce63904fc96"
+          }
+        },
+        {
+          "client_id": "1073053453229-poc1ajnhst6laupbkaij6952ha1nqqt3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvMZSziDVgxL4cMAVWPF1bmnk1z74X5mY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073053453229-poc1ajnhst6laupbkaij6952ha1nqqt3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

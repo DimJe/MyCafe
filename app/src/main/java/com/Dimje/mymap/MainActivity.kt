@@ -18,12 +18,14 @@ import com.naver.maps.map.util.MarkerIcons
 import kotlinx.android.synthetic.main.activity_main.*
 
 /*  1.api 모든 결과 불러오기
-    2.버튼 꾸미기
+    2.버튼 꾸미기 o
     3.text classification 구현해보기
     4.splash 구현 o
-    5.소스파일 나눠보기
-    6.firebase 연동
+    5.소스파일 나눠보기 o
+    6.firebase 연동 o
     7.코드 암호화
+    8.평가등록 구현
+    9.평가 불러오기 구현
 */
 class MainActivity : AppCompatActivity(),OnMapReadyCallback {
     companion object{
@@ -66,7 +68,7 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         Log.d(TAG,"MainActivity - onCreate() end")
 
     }
-    
+
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
@@ -101,7 +103,6 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
     }
     private fun showCafe(result: Cafeinfo?, color: Int = Color.GRAY){
         Log.d(TAG, "showCafe: called")
-        if(result==null) Log.d(TAG, "showCafe: null")
         result?.let {
             for (cafeInfo in it.documents){
                 Log.d(TAG, "showCafe: ${cafeInfo.address_name}")

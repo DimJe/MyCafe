@@ -8,12 +8,15 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.Dimje.mymap.*
 import com.Dimje.mymap.API.CallAPI.Companion.result
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_cafe_list.*
 
 class CafeListActivity : AppCompatActivity(),RecyclerViewInterface {
 
 
     private lateinit var recyclerAdapter: RecyclerViewAdapter
+    private lateinit var mDatabase : DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cafe_list)
@@ -22,6 +25,7 @@ class CafeListActivity : AppCompatActivity(),RecyclerViewInterface {
 
         recyclerAdapter = RecyclerViewAdapter(this)
 
+        mDatabase = FirebaseDatabase.getInstance().reference
 
         // 리사이클러뷰 설정
         list_with_brand.setOnClickListener {
@@ -46,6 +50,8 @@ class CafeListActivity : AppCompatActivity(),RecyclerViewInterface {
     }
 
     override fun onItemClicked(position: Int){
-
+        Log.d(MainActivity.TAG, "onItemClicked: called")
+        val intent = Intent(this,ReviewActivity::class.java)
+        startActivity(intent)
     }
 }
