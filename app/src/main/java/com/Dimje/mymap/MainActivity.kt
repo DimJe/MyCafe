@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.Dimje.mymap.API.CallAPI
 import com.Dimje.mymap.RecyclerView.CafeListActivity
+import com.google.firebase.database.FirebaseDatabase
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.*
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         val callApi : CallAPI = CallAPI()
         lateinit var locationOverlay : LocationOverlay
         const val TAG: String = "로그"
+        val mDatabase = FirebaseDatabase.getInstance().reference
     }
     private lateinit var locationSource: FusedLocationSource
     private lateinit var marker: Marker
@@ -126,17 +128,9 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
                     }
                 }
                 marker.setOnClickListener {
-                    var url :String = "https://search.naver.com/search.naver?where=nexearch&sm=top_sly.hst&fbm=0&acr=1&ie=utf8&query="+"${cafeInfo.place_name}"
-                    AlertDialog.Builder(this)
-                        .setTitle(cafeInfo.place_name)
-                        .setMessage("${cafeInfo.road_address_name}")
-                        .setPositiveButton("확인") { dialog, id ->
-                        }
-                        .setNegativeButton("이동하기") { dialog, id ->
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                            startActivity(intent)
-                        }
-                        .show()
+                    val intent = Intent(this@MainActivity,ReviewActivity::class.java)
+                    intent.putExtra("position",result.documents.indexOf(cafeInfo))
+                    startActivity(intent)
                     false
                 }
                 marker.position = LatLng(cafeInfo.y.toDouble(),cafeInfo.x.toDouble())

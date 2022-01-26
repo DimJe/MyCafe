@@ -45,12 +45,12 @@
         android:textStyle="bold" />
 
 
-    <fragment
-        android:id="@+id/review"
-        android:name="com.Dimje.mymap.ReviewFragment"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_weight="14"
+        android:id="@+id/reviewRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="14" />
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,6 +59,7 @@
         android:weightSum="2">
 
         <TextView
+            android:id="@+id/writeReview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -69,6 +70,7 @@
             android:textSize="25dp" />
 
         <TextView
+            android:id="@+id/close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
