@@ -3,15 +3,11 @@ package com.Dimje.mymap
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Window
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.Dimje.mymap.API.CallAPI.Companion.result
 import com.Dimje.mymap.MainActivity.Companion.TAG
 import com.Dimje.mymap.MainActivity.Companion.mDatabase
+import com.Dimje.mymap.MainActivity.Companion.model
 import com.Dimje.mymap.RecyclerView.ReviewAdapter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -28,8 +24,8 @@ class ReviewActivity : AppCompatActivity() {
 
         position = intent.getIntExtra("position",-1)
 
-        cafeName.text = result.value!!.documents[position].place_name
-        cafeAddress.text=result.value!!.documents[position].address_name
+        cafeName.text = model.result.value!!.documents[position].place_name
+        cafeAddress.text = model.result.value!!.documents[position].address_name
 
 
         val reAdapter = ReviewAdapter()
@@ -38,12 +34,16 @@ class ReviewActivity : AppCompatActivity() {
         reviewRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
 
-        mDatabase.child(result.value!!.documents[position].place_name).addValueEventListener(object : ValueEventListener{
+        mDatabase.child(model.result.value!!.documents[position].place_name).addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 Log.d(TAG, "onCancelled: error")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
+                var taste : Double = 0.0
+                var beauty : Double = 0.0
+                var study : Double = 0.0
+                var count : Int = 0
                 reviewList.clear()
                 for (data in snapshot.children){
                     val review = Review(data.child("review").value.toString(),
@@ -52,8 +52,14 @@ class ReviewActivity : AppCompatActivity() {
                                         data.child("study").value.toString(),
                                         data.child("date").value.toString())
                     Log.d(TAG, "onDataChange: ${review.review}")
+                    taste += review.taste.toDouble()
+                    beauty += review.beauty.toDouble()
+                    study += review.study.toDouble()
+                    count++
                     reviewList.add(review)
                 }
+                cafePoint.text = if (count==0) "맛있나요? : 0  이쁜가요? : 0  공부하기 좋은가요? : 0"
+                                 else "맛있나요? : ${taste/count}  이쁜가요? : ${beauty/count}  공부하기 좋은가요? : ${study/count}"
                 reAdapter.notifyDataSetChanged()
             }
         })

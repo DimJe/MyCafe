@@ -2,14 +2,12 @@ package com.Dimje.mymap
 
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.Dimje.mymap.API.CallAPI
 import com.Dimje.mymap.RecyclerView.CafeListActivity
+import com.Dimje.mymap.ViewModel.APIViewModel
 import com.google.firebase.database.FirebaseDatabase
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
@@ -25,35 +23,34 @@ import kotlinx.android.synthetic.main.activity_main.*
     5.소스파일 나눠보기 o
     6.firebase 연동 o
     7.코드 암호화
-    8.평가등록 구현
-    9.평가 불러오기 구현
+    8.평가등록 구현 o
+    9.평가 불러오기 구현 o
+    10.내 위치 미리 얻어와서 지도가 바로 내 위로 뜰 수 있게 하기
 */
-class MainActivity : AppCompatActivity(),OnMapReadyCallback {
-    companion object{
+class MainActivity : AppCompatActivity(), OnMapReadyCallback {
+    companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1000
-        val callApi : CallAPI = CallAPI()
-        lateinit var locationOverlay : LocationOverlay
+        val model = APIViewModel()
+        lateinit var locationOverlay: LocationOverlay
         const val TAG: String = "로그"
         val mDatabase = FirebaseDatabase.getInstance().reference
     }
     private lateinit var locationSource: FusedLocationSource
-    private lateinit var marker: Marker
-    private lateinit var infoWindow: InfoWindow
     private lateinit var naverMap: NaverMap
     private var markerList = mutableListOf<Marker>()
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG,"MainActivity - onCreate() called")
+        Log.d(TAG, "MainActivity - onCreate() called")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         map_with_brand.setOnClickListener {
 
-            val intent = Intent(this,CafeBrandCheckBox::class.java)
+            val intent = Intent(this, CafeBrandCheckBox::class.java)
             startActivity(intent)
         }
 
         look_as_list.setOnClickListener {
-            val intent = Intent(this,CafeListActivity::class.java)
+            val intent = Intent(this, CafeListActivity::class.java)
             startActivity(intent)
         }
 
@@ -66,16 +63,20 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
 
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
-
-        Log.d(TAG,"MainActivity - onCreate() end")
+        Log.d(TAG, "MainActivity - onCreate() end")
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
-        if (locationSource.onRequestPermissionsResult(requestCode, permissions,
-                grantResults)) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (locationSource.onRequestPermissionsResult(
+                requestCode, permissions,
+                grantResults
+            )
+        ) {
             if (!locationSource.isActivated) { // 권한 거부됨
                 naverMap.locationTrackingMode = LocationTrackingMode.None
             }
@@ -83,9 +84,10 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
     override fun onMapReady(NaverMap: NaverMap) {
 
-        Log.d(TAG,"MainActivity - onMapReady() called")
+        Log.d(TAG, "MainActivity - onMapReady() called")
 
         naverMap = NaverMap
         naverMap.locationSource = locationSource
@@ -94,64 +96,50 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
             locationOverlay.position = LatLng(location.latitude, location.longitude)
         }
         locationOverlay = naverMap.locationOverlay
-        var ui: UiSettings = naverMap.getUiSettings()
+        var ui: UiSettings = naverMap.uiSettings
         ui.isLocationButtonEnabled = true
-        CallAPI.result.observe(this, Observer {
+        model.result.observe(this, Observer {
             Log.d(TAG, "onCreate - observe")
             del_all()
-            showCafe(CallAPI.result.value)
+            show(model.result.value!!.documents)
         })
 
     }
-    private fun showCafe(result: Cafeinfo?, color: Int = Color.GRAY){
-        Log.d(TAG, "showCafe: called")
-        result?.let {
-            for (cafeInfo in it.documents){
-                Log.d(TAG, "showCafe: ${cafeInfo.address_name}")
-                marker  = Marker()
-                marker.icon = MarkerIcons.BLACK
-                when(it.meta.same_name){
-                    null -> marker.iconTintColor = color
-                    else ->{
-                        when(it.meta.same_name.keyword){
-                            "이디야"-> marker.iconTintColor = Color.BLUE
-                            "투썸" -> marker.iconTintColor = Color.argb(100,102,0,0)
-                            "스타벅스" -> marker.iconTintColor = Color.GREEN
-                        }
-                    }
 
+    private fun show(result: List<Document>) {
+        for (cafeInfo in result) {
+            Log.d(TAG, "showCafe: ${cafeInfo.address_name}")
+            val marker = Marker()
+            marker.icon = MarkerIcons.BLACK
+            marker.iconTintColor = Color.BLUE
+
+            val infoWindow = InfoWindow()
+            infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
+                override fun getText(infoWindow: InfoWindow): CharSequence {
+                    return cafeInfo.place_name
                 }
-                infoWindow = InfoWindow()
-                infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
-                    override fun getText(infoWindow: InfoWindow): CharSequence {
-                        return cafeInfo.place_name
-                    }
-                }
-                marker.setOnClickListener {
-                    val intent = Intent(this@MainActivity,ReviewActivity::class.java)
-                    intent.putExtra("position",result.documents.indexOf(cafeInfo))
-                    startActivity(intent)
-                    false
-                }
-                marker.position = LatLng(cafeInfo.y.toDouble(),cafeInfo.x.toDouble())
-                marker.map = naverMap
-                markerList.add(marker)
-                infoWindow.open(marker)
             }
+            marker.setOnClickListener {
+                val intent = Intent(this, ReviewActivity::class.java)
+                intent.putExtra("position", result.indexOf(cafeInfo))
+                startActivity(intent)
+                false
+            }
+            marker.position = LatLng(cafeInfo.y.toDouble(), cafeInfo.x.toDouble())
+            marker.map = naverMap
+            markerList.add(marker)
+            infoWindow.open(marker)
         }
     }
 
-    fun del_all(){
-        Log.d(TAG,"CallAPI - del_all() called   ${markerList.size}")
-        var markerListDel = mutableListOf<Marker>()
+    fun del_all() {
+        Log.d(TAG, "CallAPI - del_all() called   ${markerList.size}")
         if (markerList.isEmpty()) return
         markerList.forEach {
             it.map = null
-            markerListDel.add(it)
         }
-        Log.d(TAG,"before_array_size : ${markerList.size}")
-        markerList.removeAll(markerListDel)
-        Log.d(TAG,"after_array_size : ${markerList.size}")
+        markerList.clear()
+        Log.d(TAG, "after_array_size : ${markerList.size}")
     }
 }
 

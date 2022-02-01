@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.Dimje.mymap.*
 import com.Dimje.mymap.API.CallAPI.Companion.result
+import com.Dimje.mymap.MainActivity.Companion.model
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_cafe_list.*
@@ -33,8 +34,8 @@ class CafeListActivity : AppCompatActivity(),RecyclerViewInterface {
         look_as_map.setOnClickListener {
             finish()
         }
-        result.observe(this, Observer {
-            recyclerAdapter.submitList(result.value!!.documents as ArrayList<Document>)
+        model.result.observe(this, Observer {
+            recyclerAdapter.submitList(model.result.value!!.documents as ArrayList<Document>)
             recycler_view.apply {
 
                 // 리사이클러뷰 방향 등 설정
