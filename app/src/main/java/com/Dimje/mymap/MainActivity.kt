@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.Dimje.mymap.RecyclerView.CafeListActivity
 import com.Dimje.mymap.ViewModel.APIViewModel
+import com.Dimje.mymap.ViewModel.DBViewModel
 import com.google.firebase.database.FirebaseDatabase
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val model = APIViewModel()
         lateinit var locationOverlay: LocationOverlay
         const val TAG: String = "로그"
+        val dbModel = DBViewModel()
         val mDatabase = FirebaseDatabase.getInstance().reference
     }
     private lateinit var locationSource: FusedLocationSource

@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.Dimje.mymap.MainActivity.Companion.TAG
+import com.Dimje.mymap.MainActivity.Companion.dbModel
 import com.Dimje.mymap.MainActivity.Companion.mDatabase
 import com.Dimje.mymap.MainActivity.Companion.model
 import com.Dimje.mymap.RecyclerView.ReviewAdapter
@@ -13,6 +14,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_review.*
+import java.lang.Math.round
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 class ReviewActivity : AppCompatActivity() {
     var position : Int = 0
@@ -29,40 +33,19 @@ class ReviewActivity : AppCompatActivity() {
 
 
         val reAdapter = ReviewAdapter()
-        reAdapter.submitList(reviewList)
-        reviewRecyclerView.adapter = reAdapter
-        reviewRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
 
-        mDatabase.child(model.result.value!!.documents[position].place_name).addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-                Log.d(TAG, "onCancelled: error")
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var taste : Double = 0.0
-                var beauty : Double = 0.0
-                var study : Double = 0.0
-                var count : Int = 0
-                reviewList.clear()
-                for (data in snapshot.children){
-                    val review = Review(data.child("review").value.toString(),
-                                        data.child("taste").value.toString(),
-                                        data.child("beauty").value.toString(),
-                                        data.child("study").value.toString(),
-                                        data.child("date").value.toString())
-                    Log.d(TAG, "onDataChange: ${review.review}")
-                    taste += review.taste.toDouble()
-                    beauty += review.beauty.toDouble()
-                    study += review.study.toDouble()
-                    count++
-                    reviewList.add(review)
-                }
-                cafePoint.text = if (count==0) "맛있나요? : 0  이쁜가요? : 0  공부하기 좋은가요? : 0"
-                                 else "맛있나요? : ${taste/count}  이쁜가요? : ${beauty/count}  공부하기 좋은가요? : ${study/count}"
-                reAdapter.notifyDataSetChanged()
-            }
+        dbModel.getData(position)
+        dbModel.reviewList.observe(this,{
+            reAdapter.submitList(it)
+            reviewRecyclerView.adapter = reAdapter
+            reviewRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+            cafePoint.text = if (dbModel.count==0) "맛있나요? : 0  이쁜가요? : 0  공부하기 좋은가요? : 0"
+                             else "맛있나요? : ${(dbModel.taste / dbModel.count).roundToLong()}  " +
+                                  "이쁜가요? : ${(dbModel.beauty/ dbModel.count).roundToLong()}  " +
+                                  "공부하기 좋은가요? : ${(dbModel.study/ dbModel.count).roundToLong()}"
         })
+
 
         writeReview.setOnClickListener {
             val intent = Intent(this,AddReview::class.java)
@@ -70,6 +53,7 @@ class ReviewActivity : AppCompatActivity() {
             startActivity(intent)
         }
         close.setOnClickListener {
+            dbModel.reviewList.value!!.clear()
             finish()
         }
     }

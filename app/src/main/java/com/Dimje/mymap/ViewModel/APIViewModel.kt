@@ -14,7 +14,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class APIViewModel() : ViewModel(){
+class APIViewModel : ViewModel(){
 
     var result : MutableLiveData<Cafeinfo> = MutableLiveData()
     var retrofit : Retrofit

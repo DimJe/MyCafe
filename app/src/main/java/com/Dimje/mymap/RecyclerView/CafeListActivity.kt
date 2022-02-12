@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.Dimje.mymap.*
-import com.Dimje.mymap.API.CallAPI.Companion.result
 import com.Dimje.mymap.MainActivity.Companion.model
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
