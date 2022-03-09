@@ -41,9 +41,9 @@ class ReviewActivity : AppCompatActivity() {
             reviewRecyclerView.adapter = reAdapter
             reviewRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
             cafePoint.text = if (dbModel.count==0) "맛있나요? : 0  이쁜가요? : 0  공부하기 좋은가요? : 0"
-                             else "맛있나요? : ${(dbModel.taste / dbModel.count).roundToLong()}  " +
-                                  "이쁜가요? : ${(dbModel.beauty/ dbModel.count).roundToLong()}  " +
-                                  "공부하기 좋은가요? : ${(dbModel.study/ dbModel.count).roundToLong()}"
+                             else "맛있나요? : ${((dbModel.taste / dbModel.count)*10).roundToInt()/10f}  " +
+                                  "이쁜가요? : ${((dbModel.beauty/ dbModel.count)*10).roundToInt()/10f}  " +
+                                  "공부하기 좋은가요? : ${((dbModel.study/ dbModel.count)*10).roundToInt()/10f}"
         })
 
 

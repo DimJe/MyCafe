@@ -3,7 +3,6 @@ package com.Dimje.mymap.ViewModel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.Dimje.mymap.MainActivity
 import com.Dimje.mymap.MainActivity.Companion.TAG
 import com.Dimje.mymap.MainActivity.Companion.model
 import com.Dimje.mymap.Review
