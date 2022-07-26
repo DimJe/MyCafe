@@ -1,6 +1,6 @@
 # My Cafe
  - 개인프로젝트
- - [플레이스토어 출시 링크](https://play.google.com/store/apps/details?id=com.Dimje.mymap){:target = "_blank"}
+ - <a href="https://play.google.com/store/apps/details?id=com.Dimje.mymap" target="_blank">플레이스토어 출시 링크</a>
 ## 기능
  - 네이버 map api와 카카오 검색 api를 사용한 내 주위 카페를 map에 띄우고 firebase를 사용하여 카페에 리뷰 작성까지 할 수 있는 어플리케이션
 ## 사용한 기술 및 라이브러리
