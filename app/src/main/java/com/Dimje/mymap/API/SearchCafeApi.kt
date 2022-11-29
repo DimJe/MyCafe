@@ -14,9 +14,5 @@ interface SearchCafeService{
             @Query("category_group_code") category_group_code : String,
             @Query("radius") radius : Int,
             @Query("query") query: String
-
-
     ): Call<Cafeinfo>
-
-
 }

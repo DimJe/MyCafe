@@ -22,7 +22,9 @@
             android:name=".CafeBrandCheckBox"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".RecyclerView.CafeListActivity" />
-        <activity android:name=".ViewPager.IntroViewPager">
+        <activity android:name=".ViewPager.IntroViewPager"
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

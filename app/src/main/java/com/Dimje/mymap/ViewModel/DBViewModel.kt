@@ -1,4 +1,4 @@
-package com.Dimje.mymap.ViewModel
+ package com.Dimje.mymap.ViewModel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -18,26 +18,18 @@ class DBViewModel : ViewModel() {
     var beauty : Double = 0.0
     var study : Double = 0.0
     var count : Int = 0
-    fun createReview(
-        review: String = "",
-        taste: String = "",
-        beauty: String = "",
-        study: String = "",
-        position: Int
-    ) {
+    fun createReview(review: String, taste: String, beauty: String, study: String, position: Int) {
+
         val date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         val review = Review(review, taste, beauty, study, date)
         mDatabase.child(model.result.value!!.documents[position].place_name).push().setValue(review)
-
     }
-
     fun getData(position: Int){
         mDatabase.child(model.result.value!!.documents[position].place_name).addValueEventListener(object :
             ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 Log.d(TAG, "onCancelled: error")
             }
-
             override fun onDataChange(snapshot: DataSnapshot) {
                 taste = 0.0
                 beauty = 0.0

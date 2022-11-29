@@ -9,13 +9,13 @@
     tools:context=".MainActivity">
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/my_intro_view_pager"
+        android:id="@+id/myIntroViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />
 
     <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-        android:id="@+id/dots_indicator"
+        android:id="@+id/dotsIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -30,7 +30,7 @@
         app:selectedDotColor="#FFC107" />
 
     <TextView
-        android:id="@+id/next_btn"
+        android:id="@+id/nextBtn"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentEnd="true"
@@ -43,7 +43,7 @@
         />
 
     <TextView
-        android:id="@+id/previous_btn"
+        android:id="@+id/previousBtn"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentStart="true"

@@ -9,13 +9,13 @@ import androidx.lifecycle.Observer
 import com.Dimje.mymap.RecyclerView.CafeListActivity
 import com.Dimje.mymap.ViewModel.APIViewModel
 import com.Dimje.mymap.ViewModel.DBViewModel
+import com.Dimje.mymap.databinding.ActivityMainBinding
 import com.google.firebase.database.FirebaseDatabase
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.*
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
-import kotlinx.android.synthetic.main.activity_main.*
 
 /*  1.api 모든 결과 불러오기
     2.버튼 꾸미기 o
@@ -40,18 +40,22 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
     private lateinit var naverMap: NaverMap
     private var markerList = mutableListOf<Marker>()
+    private val binding : ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "MainActivity - onCreate() called")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
-        map_with_brand.setOnClickListener {
+        binding.mapWithBrand.setOnClickListener {
 
             val intent = Intent(this, CafeBrandCheckBox::class.java)
             startActivity(intent)
         }
 
-        look_as_list.setOnClickListener {
+        binding.lookAsList.setOnClickListener {
             val intent = Intent(this, CafeListActivity::class.java)
             startActivity(intent)
         }
@@ -100,6 +104,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         locationOverlay = naverMap.locationOverlay
         var ui: UiSettings = naverMap.uiSettings
         ui.isLocationButtonEnabled = true
+
+        // 검색 api 결과로 지도에 마커 뿌리기
         model.result.observe(this, Observer {
             Log.d(TAG, "onCreate - observe")
             del_all()
@@ -110,7 +116,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun show(result: List<Document>) {
         for (cafeInfo in result) {
-            Log.d(TAG, "showCafe: ${cafeInfo.address_name}")
             val marker = Marker()
             marker.icon = MarkerIcons.BLACK
             marker.iconTintColor = Color.BLUE

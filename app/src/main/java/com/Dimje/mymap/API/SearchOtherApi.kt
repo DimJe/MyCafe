@@ -14,10 +14,6 @@ interface SearchOtherService{
             @Query("y") y: Double,
             @Query("category_group_code") category_group_code : String,
             @Query("radius") radius : Int
-
-
-
-
     ): Call<Cafeinfo>
 
 

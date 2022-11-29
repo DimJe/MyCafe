@@ -29,9 +29,9 @@ class APIViewModel : ViewModel(){
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
     fun loadCafe(name:String) {
         val api = retrofit.create(SearchCafeService::class.java)
-
         val callGetSearchCafe = api.getSearchCafe(REST_API_KEY,
             locationOverlay.position.longitude,
             locationOverlay.position.latitude,"CE7",2100,name)

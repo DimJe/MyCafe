@@ -10,7 +10,7 @@
     tools:context=".RecyclerView.CafeListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7">
@@ -26,7 +26,7 @@
         android:weightSum="2">
 
         <Button
-            android:id="@+id/list_with_brand"
+            android:id="@+id/listWithBrand"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -35,7 +35,7 @@
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/look_as_map"
+            android:id="@+id/lookAsMap"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

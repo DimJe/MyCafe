@@ -8,6 +8,7 @@ import com.Dimje.mymap.Cafeinfo
 import com.Dimje.mymap.Document
 import com.Dimje.mymap.MainActivity
 import com.Dimje.mymap.R
+import com.Dimje.mymap.databinding.LayoutRecyclerItemBinding
 
 class RecyclerViewAdapter(myRecyclerviewInterface: RecyclerViewInterface): RecyclerView.Adapter<ViewHolder>() {
     private var modelList = ArrayList<Document>()
@@ -23,8 +24,8 @@ class RecyclerViewAdapter(myRecyclerviewInterface: RecyclerViewInterface): Recyc
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         // 연결할 레이아웃 설정
-
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_recycler_item, parent, false), this.myRecyclerviewInterface!!)
+        val binding = LayoutRecyclerItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return ViewHolder(binding,myRecyclerviewInterface!!)
     }
 
     // 목록의 아이템수

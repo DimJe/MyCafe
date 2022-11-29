@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.Dimje.mymap.R
 import com.Dimje.mymap.Review
-import kotlinx.android.synthetic.main.layout_review_recycler_item.view.*
+import com.Dimje.mymap.databinding.LayoutRecyclerItemBinding
+import com.Dimje.mymap.databinding.LayoutReviewRecyclerItemBinding
 
-class ReviewViewHolder(v: View) : RecyclerView.ViewHolder(v){
+class ReviewViewHolder(binding : LayoutReviewRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root){
 
-    val date = v.reviewDate
-    val text = v.reviewText
+    val date = binding.reviewDate
+    val text = binding.reviewText
 
     fun bind(review: Review){
         date.text = review.date
@@ -23,8 +24,8 @@ class ReviewViewHolder(v: View) : RecyclerView.ViewHolder(v){
 class ReviewAdapter : RecyclerView.Adapter<ReviewViewHolder>(){
     private var reviewList = ArrayList<Review>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
-        val lm = LayoutInflater.from(parent.context).inflate(R.layout.layout_review_recycler_item,parent,false)
-        return ReviewViewHolder(lm)
+        val binding = LayoutReviewRecyclerItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return ReviewViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {

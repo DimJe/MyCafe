@@ -6,18 +6,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.Dimje.mymap.Cafeinfo
 import com.Dimje.mymap.Document
 import com.Dimje.mymap.MainActivity.Companion.TAG
-import kotlinx.android.synthetic.main.layout_recycler_item.view.*
+import com.Dimje.mymap.databinding.LayoutRecyclerItemBinding
 
-class ViewHolder(itemView: View,
+class ViewHolder(binding: LayoutRecyclerItemBinding,
                  recyclerviewInterface: RecyclerViewInterface):
-                 RecyclerView.ViewHolder(itemView),
+                 RecyclerView.ViewHolder(binding.root),
                  View.OnClickListener
 {
 
-    private val cafeName = itemView.cafeName
-    private val cafeAddress = itemView.cafeAddress
-    private val cafePoint = itemView.cafePoint
-    private val cafeDistance = itemView.cafeDistance
+    private val cafeName = binding.cafeName
+    private val cafeAddress = binding.cafeAddress
+    private val cafePoint = binding.cafePoint
+    private val cafeDistance = binding.cafeDistance
 
     private var myRecyclerviewInterface : RecyclerViewInterface? = null
 

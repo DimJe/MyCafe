@@ -8,17 +8,21 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.Dimje.mymap.*
 import com.Dimje.mymap.MainActivity.Companion.model
+import com.Dimje.mymap.databinding.ActivityCafeListBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_cafe_list.*
 
 class CafeListActivity : AppCompatActivity(),RecyclerViewInterface {
 
 
     private lateinit var recyclerAdapter: RecyclerViewAdapter
+    private val binding : ActivityCafeListBinding by lazy {
+        ActivityCafeListBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cafe_list)
+        setContentView(binding.root)
 
         Log.d(MainActivity.TAG, "onCreate: ListActivity")
 
@@ -26,16 +30,16 @@ class CafeListActivity : AppCompatActivity(),RecyclerViewInterface {
 
 
         // 리사이클러뷰 설정
-        list_with_brand.setOnClickListener {
+        binding.listWithBrand.setOnClickListener {
             val intent = Intent(this, CafeBrandCheckBox::class.java)
             startActivity(intent)
         }
-        look_as_map.setOnClickListener {
+        binding.lookAsMap.setOnClickListener {
             finish()
         }
         model.result.observe(this, Observer {
             recyclerAdapter.submitList(model.result.value!!.documents as ArrayList<Document>)
-            recycler_view.apply {
+            binding.recyclerView.apply {
 
                 // 리사이클러뷰 방향 등 설정
                 layoutManager = LinearLayoutManager(this@CafeListActivity, LinearLayoutManager.VERTICAL, false)

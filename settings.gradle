@@ -1,2 +1,25 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+pluginManagement{
+    repositories{
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        jcenter()
+    }
+}
+dependencyResolutionManagement{
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven {
+            url 'https://naver.jfrog.io/artifactory/maven/'
+        }
+    }
+}
+
+
 include ':app'
 rootProject.name = "Mymap"

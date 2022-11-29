@@ -1,31 +1,39 @@
 package com.Dimje.mymap
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RadioGroup
 import com.Dimje.mymap.MainActivity.Companion.TAG
 import com.Dimje.mymap.MainActivity.Companion.dbModel
-import com.Dimje.mymap.MainActivity.Companion.mDatabase
-import com.Dimje.mymap.MainActivity.Companion.model
-import kotlinx.android.synthetic.main.activity_add_review.*
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.Dimje.mymap.databinding.ActivityAddReviewBinding
 
-class AddReview : AppCompatActivity() {
+class AddReview : Activity() {
     var tastePoint : String = ""
     var beautyPoint : String = ""
     var studyPoint : String = ""
     var totalReview : String = ""
     var position : Int = 0
+    //private lateinit var binding : ActivityAddReviewBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        //binding = ActivityAddReviewBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_add_review)
 
         position = intent.getIntExtra("position",-1)
+        val taste = findViewById<RadioGroup>(R.id.taste)
+        val beauty = findViewById<RadioGroup>(R.id.beauty)
+        val study = findViewById<RadioGroup>(R.id.study)
+        val submitReview = findViewById<Button>(R.id.submitReview)
+        val editReview = findViewById<EditText>(R.id.editReview)
 
-        taste.setOnCheckedChangeListener { group, checkedId ->
+
+        taste.setOnCheckedChangeListener { _, checkedId ->
             when(checkedId){
                 R.id.taste_1 -> tastePoint = "1"
                 R.id.taste_2 -> tastePoint = "2"
@@ -35,7 +43,7 @@ class AddReview : AppCompatActivity() {
             }
             Log.d(TAG, "tastePoint : $tastePoint ")
         }
-        beauty.setOnCheckedChangeListener { group, checkedId ->
+        beauty.setOnCheckedChangeListener { _, checkedId ->
             when(checkedId){
                 R.id.beauty_1 -> beautyPoint = "1"
                 R.id.beauty_2 -> beautyPoint = "2"
@@ -45,7 +53,7 @@ class AddReview : AppCompatActivity() {
             }
             Log.d(TAG, "beautyPoint : $beautyPoint ")
         }
-        study.setOnCheckedChangeListener { group, checkedId ->
+        study.setOnCheckedChangeListener { _, checkedId ->
             when(checkedId){
                 R.id.study_1 -> studyPoint = "1"
                 R.id.study_2 -> studyPoint = "2"
@@ -55,7 +63,7 @@ class AddReview : AppCompatActivity() {
             }
             Log.d(TAG, "studyPoint : $studyPoint ")
         }
-        sumitReview.setOnClickListener {
+        submitReview.setOnClickListener {
             totalReview = editReview.text.toString()
             dbModel.createReview(totalReview,tastePoint,beautyPoint,studyPoint,position)
             finish()

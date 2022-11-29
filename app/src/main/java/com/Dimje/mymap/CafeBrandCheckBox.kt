@@ -8,18 +8,22 @@ import android.view.Window
 import android.widget.RadioButton
 import androidx.core.view.isVisible
 import com.Dimje.mymap.MainActivity.Companion.model
-import kotlinx.android.synthetic.main.activity_cafe_brand_check_box.*
+import com.Dimje.mymap.databinding.ActivityCafeBrandCheckBoxBinding
 
 class CafeBrandCheckBox : AppCompatActivity() {
     var name : String? = null
+    private val binding : ActivityCafeBrandCheckBoxBinding by lazy {
+        //supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+        ActivityCafeBrandCheckBoxBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_cafe_brand_check_box)
+        setContentView(binding.root)
         Log.d(MainActivity.TAG, "checkbox called ")
 
 
-        sumit.setOnClickListener {
+        binding.sumit.setOnClickListener {
             Log.d(MainActivity.TAG, "sumit : clicked ")
             when(name){
                 "all" ->{
@@ -28,7 +32,7 @@ class CafeBrandCheckBox : AppCompatActivity() {
                 }
                 null ->{
                     Log.d(MainActivity.TAG, " null ")
-                    model.loadCafe(write_cafe.text.toString())
+                    model.loadCafe(binding.writeCafe.text.toString())
                 }
                 else ->{
                     Log.d(MainActivity.TAG, " else")
@@ -70,7 +74,7 @@ class CafeBrandCheckBox : AppCompatActivity() {
                 R.id.edit ->
                     if (checked) {
                         name = null
-                        write_cafe.isVisible = true
+                        binding.writeCafe.isVisible = true
                     }
             }
         }
