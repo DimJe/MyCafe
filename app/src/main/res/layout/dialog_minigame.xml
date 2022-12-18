@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:paddingStart="10dp"
+        android:text="미니게임"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black" />
+
+    <GridLayout
+        android:id="@+id/grid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="10dp"
+        android:columnCount="4"
+        android:rowCount="3">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="1"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="2"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="3"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="4"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="5"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="6"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="7"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="8"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="9"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="10"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="11"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:gravity="center"
+            android:tag="12"
+            android:text="뽑기!"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+
+    </GridLayout>
+
+    <TextView
+        android:id="@+id/result"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

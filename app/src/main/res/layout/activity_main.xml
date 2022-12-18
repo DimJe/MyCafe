@@ -33,6 +33,14 @@
             android:background="@drawable/stroke"
             android:text="BRAND"
             android:textColor="@color/black" />
+        <Button
+            android:id="@+id/miniGame"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_weight="1"
+            android:text="미니게임"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/lookAsList"

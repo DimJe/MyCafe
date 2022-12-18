@@ -7,20 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.Dimje.mymap.MainActivity.Companion.TAG
 import com.Dimje.mymap.MainActivity.Companion.dbModel
-import com.Dimje.mymap.MainActivity.Companion.mDatabase
 import com.Dimje.mymap.MainActivity.Companion.model
 import com.Dimje.mymap.RecyclerView.ReviewAdapter
 import com.Dimje.mymap.databinding.ActivityReviewBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import java.lang.Math.round
 import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
 class ReviewActivity : AppCompatActivity() {
     var position : Int = 0
-    var reviewList = ArrayList<Review>()
+    var placeName = ""
     private val binding : ActivityReviewBinding by lazy {
         ActivityReviewBinding.inflate(layoutInflater)
     }
@@ -32,6 +26,7 @@ class ReviewActivity : AppCompatActivity() {
 
         position = intent.getIntExtra("position",-1)
 
+
         binding.cafeName.text = model.result.value!!.documents[position].place_name
         binding.cafeAddress.text = model.result.value!!.documents[position].address_name
 
@@ -39,7 +34,9 @@ class ReviewActivity : AppCompatActivity() {
         val reAdapter = ReviewAdapter()
 
 
-        dbModel.getData(position)
+
+        dbModel.getData(model.result.value!!.documents[position].place_name)
+
         dbModel.reviewList.observe(this) {
             reAdapter.submitList(it)
             binding.reviewRecyclerView.adapter = reAdapter
