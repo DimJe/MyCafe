@@ -1,8 +1,6 @@
 package com.Dimje.mymap
 
-import android.app.Dialog
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -11,14 +9,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import androidx.lifecycle.Observer
 import com.Dimje.mymap.RecyclerView.CafeListActivity
 import com.Dimje.mymap.ViewModel.APIViewModel
 import com.Dimje.mymap.ViewModel.DBViewModel
 import com.Dimje.mymap.databinding.ActivityMainBinding
 import com.Dimje.mymap.databinding.DialogMinigameBinding
 import com.Dimje.mymap.databinding.DialogSetTypeBinding
-import com.google.firebase.database.FirebaseDatabase
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.*
@@ -51,7 +47,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private val binding : ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "MainActivity - onCreate() called")
         super.onCreate(savedInstanceState)
@@ -147,19 +142,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             locationOverlay.position = LatLng(location.latitude, location.longitude)
         }
         locationOverlay = naverMap.locationOverlay
-        var ui: UiSettings = naverMap.uiSettings
+        val ui: UiSettings = naverMap.uiSettings
         ui.isLocationButtonEnabled = true
 
         // 검색 api 결과로 지도에 마커 뿌리기
-        model.result.observe(this, Observer {
+        model.result.observe(this) {
             Log.d(TAG, "onCreate - observe")
             delAll()
             show(model.result.value!!.documents)
             dbModel.setDatabase(model.result.value!!.documents)
-        })
-        dbModel.recommendCafeList.observe(this){
+        }
+        dbModel.recommendCafeList.observe(this){ item ->
             delAll()
-            it.forEach {
+            item.forEach {
                 val marker = Marker()
                 marker.icon = MarkerIcons.BLACK
                 marker.iconTintColor = Color.RED
@@ -237,6 +232,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             .show()
     }
+
 }
 
 
