@@ -20,6 +20,7 @@ import com.naver.maps.map.*
 import com.naver.maps.map.overlay.*
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 /*  1.api 모든 결과 불러오기
@@ -36,7 +37,6 @@ import java.util.*
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1000
-        val model = APIViewModel()
         lateinit var locationOverlay: LocationOverlay
         const val TAG: String = "로그"
         val dbModel = DBViewModel()
@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
     private lateinit var naverMap: NaverMap
     private var markerList = mutableListOf<Marker>()
+    private val viewModel : APIViewModel by viewModel()
     private val binding : ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -51,7 +52,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         Log.d(TAG, "MainActivity - onCreate() called")
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         val sharedPreferences = getSharedPreferences("type", MODE_PRIVATE)
         if(sharedPreferences.getString("type","none")=="none"){
             setType()
