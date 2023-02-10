@@ -3,20 +3,30 @@ package com.Dimje.mymap.ViewModel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.Dimje.mymap.API.ApiState
 import com.Dimje.mymap.Cafeinfo
-import com.Dimje.mymap.MainActivity.Companion.TAG
-import com.Dimje.mymap.MainActivity.Companion.locationOverlay
 import com.Dimje.mymap.Repository.RemoteRepository
-import com.Dimje.mymap.SearchCafeService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 
 class APIViewModel(val remoteRepository: RemoteRepository) : ViewModel(){
 
-    var result : MutableLiveData<Cafeinfo> = MutableLiveData()
+    var mCafeDatas : MutableStateFlow<ApiState<Cafeinfo>> = MutableStateFlow(ApiState.Loading())
+    var cafeDatas : StateFlow<ApiState<Cafeinfo>> = mCafeDatas
+
+    fun requestCafeData(name : String,x:Double,y:Double) = viewModelScope.launch {
+        mCafeDatas.value = ApiState.Loading()
+        remoteRepository.searchCafe(name,x,y)
+            .catch { error ->
+                mCafeDatas.value = ApiState.Error("${error.message}")
+            }
+            .collect{ value ->
+                mCafeDatas.value = value
+            }
+    }
 
 
     

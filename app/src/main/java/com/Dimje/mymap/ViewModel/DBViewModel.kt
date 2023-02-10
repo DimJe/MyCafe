@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.Dimje.mymap.Document
 import com.Dimje.mymap.MainActivity.Companion.TAG
-import com.Dimje.mymap.MainActivity.Companion.model
-import com.Dimje.mymap.RecommendCafe
 import com.Dimje.mymap.Review
 import com.google.firebase.database.*
 import java.time.LocalDateTime
@@ -15,7 +13,6 @@ import java.time.format.DateTimeFormatter
 class DBViewModel : ViewModel() {
     val mDatabase: DatabaseReference = FirebaseDatabase.getInstance().reference
     var reviewList : MutableLiveData<ArrayList<Review>> = MutableLiveData()
-    val recommendCafeList : MutableLiveData<ArrayList<RecommendCafe>> = MutableLiveData()
     var temp = ArrayList<Review>()
     var taste : Double = 0.0
     var beauty : Double = 0.0
@@ -25,7 +22,7 @@ class DBViewModel : ViewModel() {
 
         val date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         val review = Review(review, taste, beauty, study, date)
-        mDatabase.child(model.result.value!!.documents[position].place_name).child("Review").push().setValue(review)
+        //mDatabase.child(model.result.value!!.documents[position].place_name).child("Review").push().setValue(review)
     }
     fun setDatabase(result: List<Document>){
         result.forEach {
@@ -33,33 +30,7 @@ class DBViewModel : ViewModel() {
             mDatabase.child(it.place_name).child("longitude").setValue(it.x.toDouble())
         }
     }
-    fun recommendCafe(keyWord : String){
-        val temp = ArrayList<RecommendCafe>()
-        mDatabase.addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(data in snapshot.children){
-                    var count = 0
-                    var point = 0.0
-                    for(snap in data.child("Review").children){
-                        point += snap.child(keyWord).value.toString().toDouble()
-                        count++
-                    }
-                    if((point/count)>3.8) {
-                        temp.add(RecommendCafe(
-                            data.key.toString(),
-                            data.child("latitude").value.toString().toDouble(),
-                            data.child("longitude").value.toString().toDouble())
-                        )
-                    }
-                }
-                recommendCafeList.postValue(temp)
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-        })
-    }
     fun getData(name : String){
         mDatabase.child(name).child("Review").addValueEventListener(object :
             ValueEventListener {

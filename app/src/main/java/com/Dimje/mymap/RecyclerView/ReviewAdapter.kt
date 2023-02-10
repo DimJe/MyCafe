@@ -1,25 +1,10 @@
 package com.Dimje.mymap.RecyclerView
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.Dimje.mymap.R
 import com.Dimje.mymap.Review
-import com.Dimje.mymap.databinding.LayoutRecyclerItemBinding
 import com.Dimje.mymap.databinding.LayoutReviewRecyclerItemBinding
-
-class ReviewViewHolder(binding : LayoutReviewRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root){
-
-    val date = binding.reviewDate
-    val text = binding.reviewText
-
-    fun bind(review: Review){
-        date.text = review.date
-        text.text = review.review
-    }
-
-}
 
 class ReviewAdapter : RecyclerView.Adapter<ReviewViewHolder>(){
     private var reviewList = ArrayList<Review>()
@@ -38,6 +23,15 @@ class ReviewAdapter : RecyclerView.Adapter<ReviewViewHolder>(){
     fun submitList(reviewList: ArrayList<Review>){
         this.reviewList = reviewList
     }
+}
+class ReviewViewHolder(binding : LayoutReviewRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root){
 
+    val date = binding.reviewDate
+    val text = binding.reviewText
+
+    fun bind(review: Review){
+        date.text = review.date
+        text.text = review.review
+    }
 
 }
