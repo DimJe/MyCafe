@@ -1,4 +1,4 @@
-package com.Dimje.mymap.RecyclerView
+package com.Dimje.mymap.Adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

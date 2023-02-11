@@ -7,7 +7,6 @@ import android.view.View
 import android.view.Window
 import android.widget.RadioButton
 import androidx.core.view.isVisible
-import com.Dimje.mymap.MainActivity.Companion.model
 import com.Dimje.mymap.databinding.ActivityCafeBrandCheckBoxBinding
 
 class CafeBrandCheckBox : AppCompatActivity() {
@@ -28,15 +27,15 @@ class CafeBrandCheckBox : AppCompatActivity() {
             when(name){
                 "all" ->{
                     Log.d(MainActivity.TAG, " all ")
-                    model.loadCafe_other()
+                    //model.loadCafe_other()
                 }
                 null ->{
                     Log.d(MainActivity.TAG, " null ")
-                    model.loadCafe(binding.writeCafe.text.toString())
+                    //model.loadCafe(binding.writeCafe.text.toString())
                 }
                 else ->{
                     Log.d(MainActivity.TAG, " else")
-                    model.loadCafe(name!!)
+                    //model.loadCafe(name!!)
                 }
             }
             finish()

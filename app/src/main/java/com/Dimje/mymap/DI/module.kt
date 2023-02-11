@@ -3,6 +3,8 @@ package com.Dimje.mymap.DI
 import com.Dimje.mymap.Repository.RemoteRepository
 import com.Dimje.mymap.SearchCafeService
 import com.Dimje.mymap.ViewModel.APIViewModel
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -19,6 +21,7 @@ val appModule = module{
             .create()
     }
     single<RemoteRepository>{ RemoteRepository(get()) }
+    single<DatabaseReference>{FirebaseDatabase.getInstance().reference}
     viewModel { APIViewModel(get()) }
 
 }

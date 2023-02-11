@@ -7,8 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.Dimje.mymap.MainActivity.Companion.TAG
 import com.Dimje.mymap.MainActivity.Companion.dbModel
-import com.Dimje.mymap.MainActivity.Companion.model
-import com.Dimje.mymap.RecyclerView.ReviewAdapter
+import com.Dimje.mymap.Adapter.ReviewAdapter
 import com.Dimje.mymap.databinding.ActivityReviewBinding
 import kotlin.math.roundToInt
 
@@ -27,15 +26,15 @@ class ReviewActivity : AppCompatActivity() {
         position = intent.getIntExtra("position",-1)
 
 
-        binding.cafeName.text = model.result.value!!.documents[position].place_name
-        binding.cafeAddress.text = model.result.value!!.documents[position].address_name
+        //binding.cafeName.text = model.result.value!!.documents[position].place_name
+        //binding.cafeAddress.text = model.result.value!!.documents[position].address_name
 
 
         val reAdapter = ReviewAdapter()
 
 
 
-        dbModel.getData(model.result.value!!.documents[position].place_name)
+        //dbModel.getData(model.result.value!!.documents[position].place_name)
 
         dbModel.reviewList.observe(this) {
             reAdapter.submitList(it)
