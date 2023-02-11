@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.Dimje.mymap.API.ApiState
 import com.Dimje.mymap.Cafeinfo
+import com.Dimje.mymap.MainActivity.Companion.TAG
 import com.Dimje.mymap.Repository.RemoteRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,6 +20,7 @@ class APIViewModel(val remoteRepository: RemoteRepository) : ViewModel(){
 
     fun requestCafeData(name : String,x:Double,y:Double) = viewModelScope.launch {
         mCafeDatas.value = ApiState.Loading()
+        Log.d(TAG, "requestCafeData: called")
         remoteRepository.searchCafe(name,x,y)
             .catch { error ->
                 mCafeDatas.value = ApiState.Error("${error.message}")

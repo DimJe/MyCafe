@@ -17,6 +17,8 @@ import com.Dimje.mymap.ViewModel.APIViewModel
 import com.Dimje.mymap.ViewModel.DBViewModel
 import com.Dimje.mymap.databinding.ActivityMainBinding
 import com.Dimje.mymap.databinding.DialogMinigameBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.*
@@ -29,14 +31,15 @@ import java.util.*
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1000
-        //lateinit var locationOverlay: LocationOverlay
         const val TAG: String = "로그"
         val dbModel = DBViewModel()
     }
     private lateinit var locationSource: FusedLocationSource
+    private lateinit var locationClient : FusedLocationProviderClient
     private lateinit var naverMap: NaverMap
     private var markerList = mutableListOf<Marker>()
     private val viewModel : APIViewModel by viewModel()
+
     private val binding : ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -75,7 +78,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         naverMap.addOnLocationChangeListener { location ->
             naverMap.locationOverlay.position = LatLng(location.latitude, location.longitude)
         }
-        //locationOverlay = naverMap.locationOverlay
         val ui: UiSettings = naverMap.uiSettings
         ui.isLocationButtonEnabled = true
 
@@ -83,8 +85,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun initView(){
         binding.mapWithBrand.setOnClickListener {
 
-            val intent = Intent(this, CafeBrandCheckBox::class.java)
-            startActivity(intent)
+            viewModel.requestCafeData("이디야",naverMap.locationOverlay.position.longitude,naverMap.locationOverlay.position.latitude)
         }
         binding.miniGame.setOnClickListener {
 
@@ -110,14 +111,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 .setCancelable(true)
                 .show()
         }
+
+        locationClient = LocationServices.getFusedLocationProviderClient(this)
+        locationSource =
+            FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.map_fragment) as MapFragment?
             ?: MapFragment.newInstance().also {
                 fm.beginTransaction().add(R.id.map_fragment, it).commit()
             }
         mapFragment.getMapAsync(this)
-        locationSource =
-            FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -126,11 +129,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                         when(it){
                             is ApiState.Success -> {
                                 it.data?.let { data ->
+                                    delAll()
                                     show(data.documents)
                                 }
                             }
                             is ApiState.Error -> {
-
+                                Log.d(TAG, "Error: ${it.message} ")
                             }
                             is ApiState.Loading -> {}
                         }
