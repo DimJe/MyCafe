@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="bottom"
-    app:umanoParallaxOffset="100dp"
+    android:gravity="bottom"
     android:id="@+id/slidingPanel"
     app:umanoDragView="@id/slidingLayout"
     app:umanoPanelHeight="0dp"
@@ -59,8 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="20"
-        tools:context=".ReviewActivity">
+        android:weightSum="20">
 
         <TextView
             android:id="@+id/cafeName"
