@@ -3,12 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/drawable/list.xml" value="0.1575" />
+        <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/drawable/map.xml" value="0.1575" />
         <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/drawable/round.xml" value="0.1795" />
+        <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/drawable/search.xml" value="0.1575" />
+        <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/drawable/stroke.xml" value="0.1575" />
         <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/layout/activity_add_review.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/layout/activity_cafe_brand_check_box.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/layout/activity_cafe_list.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/layout/activity_intro_view_pager.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/layout/activity_review.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/layout/dialog_minigame.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/layout/dialog_set_type.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/mark7/AndroidStudioProjects/MyCafe/app/src/main/res/layout/layout_recycler_item.xml" value="0.25364583333333335" />

@@ -24,6 +24,7 @@ import com.naver.maps.map.*
 import com.naver.maps.map.overlay.*
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -83,8 +84,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
     private fun initView(){
+        binding.slidingPanel.isTouchEnabled = true
         binding.mapWithBrand.setOnClickListener {
-
             viewModel.requestCafeData("이디야",naverMap.locationOverlay.position.longitude,naverMap.locationOverlay.position.latitude)
         }
         binding.miniGame.setOnClickListener {
@@ -157,9 +158,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
             marker.setOnClickListener {
-                val intent = Intent(this, ReviewActivity::class.java)
-                intent.putExtra("position", result.indexOf(cafeInfo))
-                startActivity(intent)
+                openSlidingLayout()
                 false
             }
             marker.position = LatLng(cafeInfo.y.toDouble(), cafeInfo.x.toDouble())
@@ -175,6 +174,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             it.map = null
         }
         markerList.clear()
+    }
+    private fun openSlidingLayout(){
+        if (binding.slidingPanel.panelState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+            binding.slidingPanel.panelState = SlidingUpPanelLayout.PanelState.ANCHORED
+        }
     }
 }
 

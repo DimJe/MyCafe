@@ -70,5 +70,6 @@ dependencies {
 
     implementation "io.insert-koin:koin-core:3.3.2"
     implementation "io.insert-koin:koin-android:3.3.2"
-    
+
+    implementation 'com.github.hannesa2:AndroidSlidingUpPanel:4.2.1'
 }
