@@ -13,6 +13,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.Dimje.mymap.API.ApiState
+import com.Dimje.mymap.UI.dialog.DialogListener
+import com.Dimje.mymap.UI.dialog.MiniGameDialog
 import com.Dimje.mymap.ViewModel.APIViewModel
 import com.Dimje.mymap.ViewModel.DBViewModel
 import com.Dimje.mymap.databinding.ActivityMainBinding
@@ -29,7 +31,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class MainActivity : AppCompatActivity(), OnMapReadyCallback {
+class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1000
         const val TAG: String = "로그"
@@ -89,28 +91,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             viewModel.requestCafeData("이디야",naverMap.locationOverlay.position.longitude,naverMap.locationOverlay.position.latitude)
         }
         binding.miniGame.setOnClickListener {
-
-            val random = Random().nextInt(11) + 1
-
-            val dialogBinding = DialogMinigameBinding.inflate(layoutInflater)
-            dialogBinding.grid.children.forEach {
-                val anim = AnimationUtils.loadAnimation(applicationContext,R.anim.slide_down)
-                it.setOnClickListener { textView ->
-
-                    textView.startAnimation(anim)
-                    if(textView.tag.toString().toInt() == random){
-                        (textView as TextView).text = "당첨"
-                        dialogBinding.result.text = "기분 좋게 커피를 사주세요"
-                    }
-                    else{
-                        (textView as TextView).text = "꽝"
-                    }
-                }
-            }
-            AlertDialog.Builder(this)
-                .setView(dialogBinding.root)
-                .setCancelable(true)
-                .show()
+            val miniGame = MiniGameDialog(this,0)
+            miniGame.show(this.supportFragmentManager,"MiniGame")
         }
 
         locationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -179,6 +161,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         if (binding.slidingPanel.panelState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
             binding.slidingPanel.panelState = SlidingUpPanelLayout.PanelState.ANCHORED
         }
+    }
+
+    override fun onSubmitClick(id: Int,review: String,point: Float) {
+
+    }
+
+    override fun onSearchClick(id: Int,type: String) {
     }
 }
 
