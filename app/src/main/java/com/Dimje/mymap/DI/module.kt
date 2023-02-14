@@ -1,5 +1,6 @@
 package com.Dimje.mymap.DI
 
+import com.Dimje.mymap.Repository.DBRepository
 import com.Dimje.mymap.Repository.RemoteRepository
 import com.Dimje.mymap.SearchCafeService
 import com.Dimje.mymap.ViewModel.APIViewModel
@@ -22,6 +23,7 @@ val appModule = module{
     }
     single<RemoteRepository>{ RemoteRepository(get()) }
     single<DatabaseReference>{FirebaseDatabase.getInstance().reference}
-    viewModel { APIViewModel(get()) }
+    single<DBRepository>{DBRepository(get())}
+    viewModel { APIViewModel(get(),get()) }
 
 }

@@ -6,32 +6,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.Dimje.mymap.Review
 import com.Dimje.mymap.databinding.LayoutReviewRecyclerItemBinding
 
-class ReviewAdapter : RecyclerView.Adapter<ReviewViewHolder>(){
-    private var reviewList = ArrayList<Review>()
+class ReviewAdapter(val reviewList: List<Review>) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val binding = LayoutReviewRecyclerItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ReviewViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
-        holder.bind(this.reviewList[position])
+        holder.bind(reviewList[position])
     }
 
     override fun getItemCount() : Int {
         return reviewList.size
     }
-    fun submitList(reviewList: ArrayList<Review>){
-        this.reviewList = reviewList
+    inner class ReviewViewHolder(private val binding : LayoutReviewRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root){
+
+        fun bind(review: Review){
+            binding.reviewDate.text = review.date
+            binding.reviewText.text = review.review
+        }
+
     }
-}
-class ReviewViewHolder(binding : LayoutReviewRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root){
-
-    val date = binding.reviewDate
-    val text = binding.reviewText
-
-    fun bind(review: Review){
-        date.text = review.date
-        text.text = review.review
-    }
-
 }

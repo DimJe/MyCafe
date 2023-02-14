@@ -1,24 +1,17 @@
 package com.Dimje.mymap
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.animation.AnimationUtils
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.Dimje.mymap.API.ApiState
+import com.Dimje.mymap.Repository.ResultState
 import com.Dimje.mymap.UI.dialog.DialogListener
 import com.Dimje.mymap.UI.dialog.MiniGameDialog
 import com.Dimje.mymap.ViewModel.APIViewModel
-import com.Dimje.mymap.ViewModel.DBViewModel
 import com.Dimje.mymap.databinding.ActivityMainBinding
-import com.Dimje.mymap.databinding.DialogMinigameBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.naver.maps.geometry.LatLng
@@ -29,13 +22,13 @@ import com.naver.maps.map.util.MarkerIcons
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1000
         const val TAG: String = "로그"
-        val dbModel = DBViewModel()
     }
     private lateinit var locationSource: FusedLocationSource
     private lateinit var locationClient : FusedLocationProviderClient
@@ -110,16 +103,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
                 viewModel.apply {
                     cafeDatas.collect{
                         when(it){
-                            is ApiState.Success -> {
+                            is ResultState.Success -> {
                                 it.data?.let { data ->
                                     delAll()
                                     show(data.documents)
                                 }
                             }
-                            is ApiState.Error -> {
+                            is ResultState.Error -> {
                                 Log.d(TAG, "Error: ${it.message} ")
                             }
-                            is ApiState.Loading -> {}
+                            is ResultState.Loading -> {}
                         }
                     }
                 }
@@ -164,7 +157,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
     }
 
     override fun onSubmitClick(id: Int,review: String,point: Float) {
-
+        val date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     }
 
     override fun onSearchClick(id: Int,type: String) {

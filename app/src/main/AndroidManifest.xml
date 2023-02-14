@@ -16,9 +16,6 @@
         android:theme="@style/Theme.Mymap"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".AddReview"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
-        <activity
             android:name=".CafeBrandCheckBox"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity android:name=".ViewPager.IntroViewPager"

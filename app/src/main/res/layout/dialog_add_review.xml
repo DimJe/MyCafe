@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_round"
+    android:layout_gravity="center"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="리뷰를 작성해주세요!"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="음료나 디저트의 만족도"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/point"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <RadioButton
+            android:id="@+id/point_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="1점" />
+
+        <RadioButton
+            android:id="@+id/point_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="2점" />
+
+        <RadioButton
+            android:id="@+id/point_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="3점" />
+
+        <RadioButton
+            android:id="@+id/point_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="4점" />
+
+        <RadioButton
+            android:id="@+id/point_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="5점" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/editReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="여기에 짤막한 평가를 남겨주세요!"
+        android:layout_marginHorizontal="20dp"
+        android:padding="20dp" />
+
+    <Button
+        android:id="@+id/submitReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:background="@drawable/btn_round"
+        android:text="등록"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
+
+</LinearLayout>
