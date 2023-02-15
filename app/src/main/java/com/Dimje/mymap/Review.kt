@@ -3,8 +3,16 @@ package com.Dimje.mymap
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-data class Review(
-    var review : String?="",
-    var point : Float? = null,
-    var date:String?=""
-)
+class Review{
+    var review : String = ""
+    var point : Double = 0.0
+    var date:String = ""
+
+    constructor(){}
+    constructor(review: String,point: Double,date: String){
+        this.review = review
+        this.point = point
+        this.date = date
+    }
+
+}
