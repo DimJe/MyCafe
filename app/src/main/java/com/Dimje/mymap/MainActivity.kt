@@ -7,7 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.Dimje.mymap.Adapter.ReviewAdapter
 import com.Dimje.mymap.Repository.ResultState
+import com.Dimje.mymap.UI.dialog.AddReviewDialog
 import com.Dimje.mymap.UI.dialog.DialogListener
 import com.Dimje.mymap.UI.dialog.MiniGameDialog
 import com.Dimje.mymap.ViewModel.APIViewModel
@@ -40,12 +43,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
         ActivityMainBinding.inflate(layoutInflater)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "MainActivity - onCreate() called")
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         initView()
-
     }
 
     override fun onRequestPermissionsResult(
@@ -83,6 +84,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
         binding.mapWithBrand.setOnClickListener {
             viewModel.requestCafeData("이디야",naverMap.locationOverlay.position.longitude,naverMap.locationOverlay.position.latitude)
         }
+        binding.addReview.setOnClickListener {
+            val addReview = AddReviewDialog(this,1)
+            addReview.show(this.supportFragmentManager,"AddReview")
+        }
         binding.miniGame.setOnClickListener {
             val miniGame = MiniGameDialog(this,0)
             miniGame.show(this.supportFragmentManager,"MiniGame")
@@ -100,19 +105,42 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.apply {
-                    cafeDatas.collect{
-                        when(it){
-                            is ResultState.Success -> {
-                                it.data?.let { data ->
-                                    delAll()
-                                    show(data.documents)
+                launch {
+                    viewModel.apply {
+                        cafeDatas.collect{
+                            when(it){
+                                is ResultState.Success -> {
+                                    it.data?.let { data ->
+                                        delAll()
+                                        show(data.documents)
+                                    }
                                 }
+                                is ResultState.Error -> {
+                                    Log.d(TAG, "Error: ${it.message} ")
+                                }
+                                is ResultState.Loading -> {}
                             }
-                            is ResultState.Error -> {
-                                Log.d(TAG, "Error: ${it.message} ")
+                        }
+                    }
+                }
+                launch {
+                    viewModel.apply {
+                        reviewData.collect{
+                            when(it){
+                                is ResultState.Success -> {
+                                    it.data?.let { data ->
+                                        binding.cafePoint.text = calPoint(data).toString()
+                                        ReviewAdapter(data).apply {
+                                            binding.reviewRecyclerView.adapter = this
+                                            binding.reviewRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+                                        }
+                                    }
+                                }
+                                is ResultState.Error -> {
+                                    Log.d(TAG, "Error: ${it.message} ")
+                                }
+                                is ResultState.Loading -> {}
                             }
-                            is ResultState.Loading -> {}
                         }
                     }
                 }
@@ -133,7 +161,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
                 }
             }
             marker.setOnClickListener {
+                viewModel.requestReviewData(cafeInfo.place_name)
                 openSlidingLayout()
+                initSlidingView(cafeInfo)
                 false
             }
             marker.position = LatLng(cafeInfo.y.toDouble(), cafeInfo.x.toDouble())
@@ -155,9 +185,30 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
             binding.slidingPanel.panelState = SlidingUpPanelLayout.PanelState.ANCHORED
         }
     }
+    private fun initSlidingView(item: Document){
+        binding.cafeName.text = item.place_name
+        binding.cafeAddress.text = item.address_name
+    }
+    private fun calPoint(items: List<Review>) : Double{
 
-    override fun onSubmitClick(id: Int,review: String,point: Float) {
+        var point = 0.0
+        if(items.isEmpty()) return point
+        items.forEach {
+            point += it.point!!
+        }
+        return point/items.size
+    }
+
+    override fun onBackPressed() {
+        if (binding.slidingPanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            binding.slidingPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        }
+        else super.onBackPressed()
+    }
+
+    override fun onSubmitClick(id: Int,review: String,point: Double) {
         val date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        viewModel.addReview(binding.cafeName.text.toString(), Review(review, point, date))
     }
 
     override fun onSearchClick(id: Int,type: String) {

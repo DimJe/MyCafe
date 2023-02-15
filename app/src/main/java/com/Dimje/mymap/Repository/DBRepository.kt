@@ -1,5 +1,7 @@
 package com.Dimje.mymap.Repository
 
+import android.util.Log
+import com.Dimje.mymap.MainActivity.Companion.TAG
 import com.Dimje.mymap.Review
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,7 +20,7 @@ class DBRepository(private val db : DatabaseReference) {
             db.child(key).addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for(snap in snapshot.children){
-                        reviewList.add(snap.value as Review)
+                        reviewList.add(snap.getValue(Review::class.java)!!)
                     }
                 }
                 override fun onCancelled(error: DatabaseError) {
