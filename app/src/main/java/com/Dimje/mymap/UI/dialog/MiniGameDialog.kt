@@ -1,5 +1,7 @@
 package com.Dimje.mymap.UI.dialog
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +32,7 @@ class MiniGameDialog(dialogListener: DialogListener,id:Int) : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = DialogMinigameBinding.inflate(inflater,container,false)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val view = binding.root
 
         val random = Random().nextInt(11) + 1

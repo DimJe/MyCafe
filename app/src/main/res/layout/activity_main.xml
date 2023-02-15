@@ -2,10 +2,10 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/slidingPanel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    android:id="@+id/slidingPanel"
     app:umanoDragView="@id/slidingLayout"
     app:umanoPanelHeight="0dp"
     tools:context=".MainActivity">
@@ -56,8 +56,9 @@
     <LinearLayout
         android:id="@+id/slidingLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="600dp"
         android:orientation="vertical"
+        android:padding="10dp"
         android:weightSum="20">
 
         <TextView
@@ -119,24 +120,27 @@
             android:layout_weight="2"
             android:weightSum="2">
 
-            <TextView
-                android:id="@+id/writeReview"
+            <Button
+                android:id="@+id/addReview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
                 android:layout_weight="1"
+                android:background="@drawable/btn_round"
                 android:padding="10dp"
                 android:text="리뷰작성"
                 android:textColor="@color/black"
                 android:textSize="25dp" />
 
-            <TextView
+            <Button
                 android:id="@+id/close"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:background="@drawable/btn_round"
                 android:padding="10dp"
                 android:text="닫기"
                 android:textColor="@color/black"

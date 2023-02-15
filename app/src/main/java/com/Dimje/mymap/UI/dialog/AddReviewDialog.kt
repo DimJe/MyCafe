@@ -1,5 +1,7 @@
 package com.Dimje.mymap.UI.dialog
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,21 +30,22 @@ class AddReviewDialog(dialogListener: DialogListener,id:Int) : DialogFragment() 
         savedInstanceState: Bundle?
     ): View? {
         _binding = DialogAddReviewBinding.inflate(inflater,container,false)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val view = binding.root
-        var point = 0.0f
+        var point = 0.0
         binding.point.setOnCheckedChangeListener { _, id ->
             point = when(id){
-                R.id.point_1 -> 1.0f
-                R.id.point_2 -> 2.0f
-                R.id.point_3 -> 3.0f
-                R.id.point_4 -> 4.0f
-                R.id.point_5 -> 5.0f
-                else -> {0.0f}
+                R.id.point_1 -> 1.0
+                R.id.point_2 -> 2.0
+                R.id.point_3 -> 3.0
+                R.id.point_4 -> 4.0
+                R.id.point_5 -> 5.0
+                else -> {0.0}
             }
         }
 
         binding.submitReview.setOnClickListener {
-            if(point==0.0f || binding.editReview.text.isNullOrEmpty()){
+            if(point==0.0 || binding.editReview.text.isNullOrEmpty()){
                 Toast.makeText(requireActivity(), "올바른 입력을 해주세요", Toast.LENGTH_SHORT).show()
             }
             else{
