@@ -15,9 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mymap"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".CafeBrandCheckBox"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+
         <activity android:name=".ViewPager.IntroViewPager"
             android:exported="true"
             >
