@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.Dimje.mymap.Adapter.ReviewAdapter
 import com.Dimje.mymap.Repository.ResultState
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
     private lateinit var locationSource: FusedLocationSource
     private lateinit var locationClient : FusedLocationProviderClient
     private lateinit var naverMap: NaverMap
+    private lateinit var adapter: ReviewAdapter
     private var markerList = mutableListOf<Marker>()
     private val viewModel : APIViewModel by viewModel()
 
@@ -80,7 +83,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
 
     }
     private fun initView(){
+
+        //리사이클러 뷰 설정
+        adapter = ReviewAdapter(listOf<Review>())
+        binding.reviewRecyclerView.adapter = adapter
+        binding.reviewRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.reviewRecyclerView.addItemDecoration(DividerItemDecoration(this, VERTICAL))
+
         binding.slidingPanel.isTouchEnabled = true
+
+        //UI 리스너 설정
         binding.mapWithBrand.setOnClickListener {
             viewModel.requestCafeData("이디야",naverMap.locationOverlay.position.longitude,naverMap.locationOverlay.position.latitude)
         }
@@ -93,6 +105,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
             miniGame.show(this.supportFragmentManager,"MiniGame")
         }
 
+        //NAVER MAP 설정
         locationClient = LocationServices.getFusedLocationProviderClient(this)
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
@@ -103,6 +116,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
             }
         mapFragment.getMapAsync(this)
 
+        //flow collect 설정
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 launch {
@@ -130,10 +144,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
                                 is ResultState.Success -> {
                                     it.data?.let { data ->
                                         binding.cafePoint.text = calPoint(data).toString()
-                                        ReviewAdapter(data).apply {
-                                            binding.reviewRecyclerView.adapter = this
-                                            binding.reviewRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-                                        }
+                                        adapter.submit(data)
                                     }
                                 }
                                 is ResultState.Error -> {

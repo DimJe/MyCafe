@@ -36,6 +36,7 @@ class APIViewModel(val remoteRepository: RemoteRepository,val dbRepository: DBRe
     }
 
     fun requestReviewData(key: String) = viewModelScope.launch {
+        Log.d(TAG, "requestReviewData: called")
         mReviewData.value = ResultState.Loading()
         dbRepository.getReviewData(key)
             .catch { error -> mReviewData.value = ResultState.Error("${error.message}") }

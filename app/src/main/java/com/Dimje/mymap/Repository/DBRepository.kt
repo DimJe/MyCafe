@@ -11,22 +11,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.tasks.await
 
 class DBRepository(private val db : DatabaseReference) {
 
     suspend fun getReviewData(key: String) : Flow<ResultState<List<Review>>> = flow {
         try {
             val reviewList = ArrayList<Review>()
-            db.child(key).addValueEventListener(object : ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for(snap in snapshot.children){
-                        reviewList.add(snap.getValue(Review::class.java)!!)
-                    }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    throw Exception(error.message)
-                }
-            })
+            val snap = db.child(key).get().await()
+            snap.children.forEach {
+                reviewList.add(it.getValue(Review::class.java)!!)
+            }
             emit(ResultState.Success(reviewList as List<Review>))
         }catch (e : Exception){
             emit(ResultState.Error(e.message ?:""))
