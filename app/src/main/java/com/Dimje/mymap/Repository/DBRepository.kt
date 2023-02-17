@@ -1,12 +1,7 @@
 package com.Dimje.mymap.Repository
 
-import android.util.Log
-import com.Dimje.mymap.MainActivity.Companion.TAG
 import com.Dimje.mymap.Review
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

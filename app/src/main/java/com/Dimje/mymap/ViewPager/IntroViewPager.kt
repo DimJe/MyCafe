@@ -5,11 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.viewpager2.widget.ViewPager2
-import com.Dimje.mymap.MainActivity
+import com.Dimje.mymap.UI.activity.MainActivity
 import com.Dimje.mymap.R
 import com.Dimje.mymap.databinding.ActivityIntroViewPagerBinding
 import java.util.*
-import javax.security.auth.callback.Callback
 
 class IntroViewPager : AppCompatActivity() {
 
@@ -17,7 +16,7 @@ class IntroViewPager : AppCompatActivity() {
         const val TAG:String = "로그"
     }
     private var pageItemList = ArrayList<PageItem>()
-    private lateinit var IntroPagerRecyclerAdapter: IntroViewPagerAdapter
+    private lateinit var introPagerRecyclerAdapter: IntroViewPagerAdapter
     private val binding : ActivityIntroViewPagerBinding by lazy {
         ActivityIntroViewPagerBinding.inflate(layoutInflater)
     }
@@ -35,13 +34,11 @@ class IntroViewPager : AppCompatActivity() {
         }
         binding.nextBtn.setOnClickListener {
             if(binding.myIntroViewPager.currentItem==2){
-                Log.d(TAG, "currentItem is 2")
-                val intent = Intent(this,MainActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
             else{
-                Log.d(TAG, "${binding.myIntroViewPager.currentItem}")
                 binding.myIntroViewPager.currentItem += 1
                 if(binding.myIntroViewPager.currentItem==2){
                     binding.nextBtn.text = "확인"
@@ -49,8 +46,7 @@ class IntroViewPager : AppCompatActivity() {
                 else binding.nextBtn.text = "다음"
             }
         }
-        Log.d(TAG, "intro: called")
-        IntroPagerRecyclerAdapter = IntroViewPagerAdapter(pageItemList)
+        introPagerRecyclerAdapter = IntroViewPagerAdapter(pageItemList)
 
 
         binding.myIntroViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
@@ -61,14 +57,14 @@ class IntroViewPager : AppCompatActivity() {
             }
             override fun onPageScrollStateChanged(state: Int) {
                 if (state == ViewPager2.SCROLL_STATE_DRAGGING && binding.myIntroViewPager.currentItem==2){
-                    val intent = Intent(this@IntroViewPager,MainActivity::class.java)
+                    val intent = Intent(this@IntroViewPager, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
                 super.onPageScrollStateChanged(state)
             }
         })
-        binding.myIntroViewPager.adapter = IntroPagerRecyclerAdapter
+        binding.myIntroViewPager.adapter = introPagerRecyclerAdapter
         binding.myIntroViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         binding.dotsIndicator.setViewPager2(binding.myIntroViewPager)
     }

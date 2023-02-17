@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.Dimje.mymap.Repository.ResultState
 import com.Dimje.mymap.Cafeinfo
-import com.Dimje.mymap.MainActivity.Companion.TAG
+import com.Dimje.mymap.UI.activity.MainActivity.Companion.TAG
 import com.Dimje.mymap.Repository.DBRepository
 import com.Dimje.mymap.Repository.RemoteRepository
 import com.Dimje.mymap.Review
@@ -27,6 +27,16 @@ class APIViewModel(val remoteRepository: RemoteRepository,val dbRepository: DBRe
         mCafeDatas.value = ResultState.Loading()
         Log.d(TAG, "requestCafeData: called")
         remoteRepository.searchCafe(name,x,y)
+            .catch { error ->
+                mCafeDatas.value = ResultState.Error("${error.message}")
+            }
+            .collect{ value ->
+                mCafeDatas.value = value
+            }
+    }
+    fun requestAllCafeData(x: Double,y: Double) = viewModelScope.launch {
+        mCafeDatas.value = ResultState.Loading()
+        remoteRepository.searchAllCafe(x,y)
             .catch { error ->
                 mCafeDatas.value = ResultState.Error("${error.message}")
             }

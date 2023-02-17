@@ -25,7 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Splash.SplashActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -34,7 +33,7 @@
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="kki260g53o" />
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".UI.activity.MainActivity" />
     </application>
 
 </manifest>

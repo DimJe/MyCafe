@@ -1,4 +1,4 @@
-package com.Dimje.mymap
+package com.Dimje.mymap.UI.activity
 
 import android.graphics.Color
 import android.os.Bundle
@@ -11,10 +11,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.Dimje.mymap.Adapter.ReviewAdapter
+import com.Dimje.mymap.Document
+import com.Dimje.mymap.R
 import com.Dimje.mymap.Repository.ResultState
+import com.Dimje.mymap.Review
 import com.Dimje.mymap.UI.dialog.AddReviewDialog
 import com.Dimje.mymap.UI.dialog.DialogListener
 import com.Dimje.mymap.UI.dialog.MiniGameDialog
+import com.Dimje.mymap.UI.dialog.SearchCafeDialog
 import com.Dimje.mymap.ViewModel.APIViewModel
 import com.Dimje.mymap.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -85,24 +89,29 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
     private fun initView(){
 
         //리사이클러 뷰 설정
-        adapter = ReviewAdapter(listOf<Review>())
-        binding.reviewRecyclerView.adapter = adapter
-        binding.reviewRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.reviewRecyclerView.addItemDecoration(DividerItemDecoration(this, VERTICAL))
+        adapter = ReviewAdapter(listOf<Review>()).apply {
+            binding.reviewRecyclerView.adapter = this
+            binding.reviewRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+            binding.reviewRecyclerView.addItemDecoration(DividerItemDecoration(this@MainActivity, VERTICAL))
+        }
 
         binding.slidingPanel.isTouchEnabled = true
 
         //UI 리스너 설정
         binding.mapWithBrand.setOnClickListener {
-            viewModel.requestCafeData("이디야",naverMap.locationOverlay.position.longitude,naverMap.locationOverlay.position.latitude)
+            SearchCafeDialog(this,2).apply {
+                show(this@MainActivity.supportFragmentManager,"SearchCafe")
+            }
         }
         binding.addReview.setOnClickListener {
-            val addReview = AddReviewDialog(this,1)
-            addReview.show(this.supportFragmentManager,"AddReview")
+            AddReviewDialog(this,1).apply {
+                show(this@MainActivity.supportFragmentManager,"AddReview")
+            }
         }
         binding.miniGame.setOnClickListener {
-            val miniGame = MiniGameDialog(this,0)
-            miniGame.show(this.supportFragmentManager,"MiniGame")
+            MiniGameDialog(this,0).apply {
+                show(this@MainActivity.supportFragmentManager,"MiniGame")
+            }
         }
 
         //NAVER MAP 설정
@@ -223,6 +232,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
     }
 
     override fun onSearchClick(id: Int,type: String) {
+        if(type == "all") viewModel.requestAllCafeData(naverMap.locationOverlay.position.longitude,naverMap.locationOverlay.position.latitude)
+        else viewModel.requestCafeData(type,naverMap.locationOverlay.position.longitude,naverMap.locationOverlay.position.latitude)
     }
 }
 
