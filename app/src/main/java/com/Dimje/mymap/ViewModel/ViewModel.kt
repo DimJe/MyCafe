@@ -17,10 +17,10 @@ import kotlinx.coroutines.launch
 
 class ViewModel(val remoteRepository: RemoteRepository, val dbRepository: DBRepository) : ViewModel(){
 
-    var mCafeDatas : MutableStateFlow<ResultState<Cafeinfo>> = MutableStateFlow(ResultState.Loading())
+    private var mCafeDatas : MutableStateFlow<ResultState<Cafeinfo>> = MutableStateFlow(ResultState.Loading())
     var cafeDatas : StateFlow<ResultState<Cafeinfo>> = mCafeDatas
 
-    var mReviewData : MutableStateFlow<ResultState<List<Review>>> = MutableStateFlow(ResultState.Loading())
+    private var mReviewData : MutableStateFlow<ResultState<List<Review>>> = MutableStateFlow(ResultState.Loading())
     var reviewData : StateFlow<ResultState<List<Review>>> = mReviewData
 
     fun requestCafeData(name : String,x:Double,y:Double) = viewModelScope.launch {
