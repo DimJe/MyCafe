@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class APIViewModel(val remoteRepository: RemoteRepository,val dbRepository: DBRepository) : ViewModel(){
+class ViewModel(val remoteRepository: RemoteRepository, val dbRepository: DBRepository) : ViewModel(){
 
     var mCafeDatas : MutableStateFlow<ResultState<Cafeinfo>> = MutableStateFlow(ResultState.Loading())
     var cafeDatas : StateFlow<ResultState<Cafeinfo>> = mCafeDatas

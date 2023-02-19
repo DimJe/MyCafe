@@ -19,7 +19,7 @@ import com.Dimje.mymap.UI.dialog.AddReviewDialog
 import com.Dimje.mymap.UI.dialog.DialogListener
 import com.Dimje.mymap.UI.dialog.MiniGameDialog
 import com.Dimje.mymap.UI.dialog.SearchCafeDialog
-import com.Dimje.mymap.ViewModel.APIViewModel
+import com.Dimje.mymap.ViewModel.ViewModel
 import com.Dimje.mymap.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
     private lateinit var naverMap: NaverMap
     private lateinit var adapter: ReviewAdapter
     private var markerList = mutableListOf<Marker>()
-    private val viewModel : APIViewModel by viewModel()
+    private val viewModel : ViewModel by viewModel()
 
     private val binding : ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -113,6 +113,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
                 show(this@MainActivity.supportFragmentManager,"MiniGame")
             }
         }
+        binding.close.setOnClickListener {
+            closeSlidingLayout()
+        }
 
         //NAVER MAP 설정
         locationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -152,7 +155,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
                             when(it){
                                 is ResultState.Success -> {
                                     it.data?.let { data ->
-                                        binding.cafePoint.text = calPoint(data).toString()
+                                        binding.cafePoint.text = String.format("%.1f",calPoint(data))
                                         adapter.submit(data)
                                     }
                                 }
@@ -205,6 +208,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
             binding.slidingPanel.panelState = SlidingUpPanelLayout.PanelState.ANCHORED
         }
     }
+    private fun closeSlidingLayout(){
+        if (binding.slidingPanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            binding.slidingPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        }
+    }
     private fun initSlidingView(item: Document){
         binding.cafeName.text = item.place_name
         binding.cafeAddress.text = item.address_name
@@ -229,6 +237,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback,DialogListener {
     override fun onSubmitClick(id: Int,review: String,point: Double) {
         val date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         viewModel.addReview(binding.cafeName.text.toString(), Review(review, point, date))
+        viewModel.requestReviewData(binding.cafeName.text.toString())
     }
 
     override fun onSearchClick(id: Int,type: String) {
