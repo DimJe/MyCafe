@@ -25,7 +25,6 @@ class ViewModel(val remoteRepository: RemoteRepository, val dbRepository: DBRepo
 
     fun requestCafeData(name : String,x:Double,y:Double) = viewModelScope.launch {
         mCafeDatas.value = ResultState.Loading()
-        Log.d(TAG, "requestCafeData: called")
         remoteRepository.searchCafe(name,x,y)
             .catch { error ->
                 mCafeDatas.value = ResultState.Error("${error.message}")
@@ -46,7 +45,6 @@ class ViewModel(val remoteRepository: RemoteRepository, val dbRepository: DBRepo
     }
 
     fun requestReviewData(key: String) = viewModelScope.launch {
-        Log.d(TAG, "requestReviewData: called")
         mReviewData.value = ResultState.Loading()
         dbRepository.getReviewData(key)
             .catch { error -> mReviewData.value = ResultState.Error("${error.message}") }
