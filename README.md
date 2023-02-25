@@ -11,7 +11,6 @@
  - viewpager
  - viewmodel
  - koin
- - 
 ## 작동화면
 <img src="https://user-images.githubusercontent.com/41900899/221352096-dbc6f856-26db-42f6-9772-37c05376f2fb.jpg" width = 130/><img src="https://user-images.githubusercontent.com/41900899/221352099-73ea6bf0-4580-45ad-b98c-f35b01f1dec4.jpg" width = 130/><img src="https://user-images.githubusercontent.com/41900899/221352100-062e583d-a263-4147-898f-29f112418fc6.jpg" width = 130/>
     <img src="https://user-images.githubusercontent.com/41900899/221352101-e5f341bd-fd58-4b2b-8a25-2e768509bc2b.jpg" width = 130>
