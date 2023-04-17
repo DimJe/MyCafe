@@ -22,6 +22,7 @@ class SearchCafeDialog(dialogListener: DialogListener,id:Int) : DialogFragment()
     private var dialogListener: DialogListener? = null
     private var id: Int? = null
     private var type = "none"
+    private var selected: Button? = null
 
     init {
         this.id = id
@@ -32,7 +33,7 @@ class SearchCafeDialog(dialogListener: DialogListener,id:Int) : DialogFragment()
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DialogCafeSearchBinding.inflate(inflater,container,false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val view = binding.root
@@ -40,6 +41,23 @@ class SearchCafeDialog(dialogListener: DialogListener,id:Int) : DialogFragment()
         binding.searchBrand.forEach { view ->
             view.setOnClickListener {
                 type = (it as Button).text.toString()
+                if(selected==null){
+                    (it as Button).isSelected = true
+                    selected = it as Button
+                }
+                else{
+                    if(selected==it as Button){
+                        selected!!.isSelected = false
+                        type = "none"
+                        selected = null
+                    }
+                    else{
+                        selected!!.isSelected = false
+                        type = (it as Button).text.toString()
+                        selected = it
+                        selected!!.isSelected = true
+                    }
+                }
             }
         }
         binding.submit.setOnClickListener {
